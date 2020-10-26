@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/menucontroller :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/menucontroller :: header"/>
+
+<div class="container">
+
+    <H2>Entries</H2>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>currency</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>sum</th>
+                <th>rate</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="entry, stat : ${entries}">
+                <td th:text="${entry.currencyId}"></td>
+                <td th:text="${entry.accountDebit}"></td>
+                <td th:text="${entry.accountCredit}"></td>
+                <td th:text="${entry.sum}"></td>
+                <td th:text="${entry.rate}"></td>
+            </tr>
+            </tbody>
+        </table>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

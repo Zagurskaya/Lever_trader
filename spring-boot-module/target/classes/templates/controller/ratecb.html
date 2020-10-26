@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CASH</title>
+
+    <div th:replace="fragments/menucontroller :: header-css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/menucontroller :: header"/>
+
+<div class="container">
+    <H2>RateCB </H2>
+    <table class="table table-bordered table-hover table-striped">
+        <thead>
+        <tr>
+            <th>coming</th>
+            <th>spending</th>
+            <th>timestamp</th>
+            <th>sum</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ratecb, stat : ${ratescb}">
+            <td th:text="${ratecb.coming.name}"></td>
+            <td th:text="${ratecb.spending.name}"></td>
+            <td th:text="${ratecb.timestamp}"></td>
+            <td th:text="${ratecb.sum}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- /.container -->
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

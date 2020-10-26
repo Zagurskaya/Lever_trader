@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CASH</title>
+
+    <div th:replace="fragments/menucash :: header-css"/>
+
+</head>
+<body>
+
+<div th:replace="fragments/menucash :: header"/>
+
+<div class="container">
+    <H2>Operations</H2>
+
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>currencyId</th>
+                <th>name</th>
+                <th>sum</th>
+                <th>rate</th>
+<!--                <th>Delete</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="operation, stat : ${userOperations}">
+                <td th:text="${operation.currency.name}"></td>
+                <td th:text="${operation.sprOperation.name}"></td>
+                <td th:text="${operation.sum}"></td>
+                <td th:text="${operation.rate}"></td>
+
+<!--                <td><input type="checkbox" th:name="ids"-->
+<!--                           th:value="${operation.id}" /></td>-->
+<!--                <td>-->
+            </tr>
+            </tbody>
+        </table>
+</div>
+</body>
+</html>

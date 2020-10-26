@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CASH</title>
+    <div th:replace="fragments/menucash :: header-css"/>
+</head>
+<body>
+
+<div th:replace="fragments/menucash :: header"/>
+<div class="container">
+    <form action="/cash/operation/payments" th:object="${sprOperations}" method="post">
+        <br>
+        <br>
+        <h1 th:text="${messageDuties}">Hello!</h1>
+        <br>
+        <br>
+        <h2><select name="sprOperation" th:name="id">
+            <option th:each="sprOperation,stat:${sprOperations}"
+                    th:value="${sprOperation.id}"
+                    th:text="${sprOperation.name}">
+                <!--                            th:selected="${user.roleId == role.id}">-->
+            </option>
+        </select></h2>
+        <br>
+        <div class="field">
+            <button type="submit" value="submit" class="btn btn-success">Select</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

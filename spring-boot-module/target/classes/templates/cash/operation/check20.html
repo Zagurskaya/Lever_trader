@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>CASH</title>
+    <div th:replace="fragments/menucash :: header-css"/>
+</head>
+<body>
+<div th:replace="fragments/menucash :: header"/>
+<div class="container">
+
+    <form class="form-horizontal" action="/cash/operation/payment10" method="post">
+        <fieldset>
+            <legend>Print check sale currency</legend>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
