@@ -22,7 +22,7 @@ public class UserDTO {
     @NotNull
     private String patronymic;
 
-    private RoleDTO role;
+    private String role;
     @NotNull
     private Long roleId;
 //    @NotNull
@@ -80,11 +80,11 @@ public class UserDTO {
         this.patronymic = patronymic;
     }
 
-    public RoleDTO getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(RoleDTO role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

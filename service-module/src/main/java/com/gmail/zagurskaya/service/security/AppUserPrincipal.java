@@ -1,5 +1,4 @@
 package com.gmail.zagurskaya.service.security;
-import com.gmail.zagurskaya.service.model.RoleDTO;
 import com.gmail.zagurskaya.service.model.UserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,14 +12,13 @@ import java.util.Set;
 public class AppUserPrincipal implements UserDetails {
 
     private UserDTO user;
-    private RoleDTO role;
     private Set<GrantedAuthority> grantedAuthorities;
 
-    public AppUserPrincipal(UserDTO userDto, RoleDTO role) {
+    public AppUserPrincipal(UserDTO userDto) {
         this.user = userDto;
-        this.role = role;
         this.grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+//        grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        grantedAuthorities.add(new SimpleGrantedAuthority(userDto.getRole()));
     }
 
 

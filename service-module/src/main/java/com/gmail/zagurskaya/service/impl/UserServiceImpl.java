@@ -1,9 +1,8 @@
 package com.gmail.zagurskaya.service.impl;
 
-import com.gmail.zagurskaya.repository.RoleRepository;
 import com.gmail.zagurskaya.repository.UserInfoRepository;
 import com.gmail.zagurskaya.repository.UserRepository;
-import com.gmail.zagurskaya.repository.model.Role;
+import com.gmail.zagurskaya.repository.model.RoleEnum;
 import com.gmail.zagurskaya.repository.model.User;
 import com.gmail.zagurskaya.service.UserService;
 import com.gmail.zagurskaya.service.converter.UserConverter;
@@ -27,14 +26,12 @@ public class UserServiceImpl implements UserService {
     private final UserConverter userConverter;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
+    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
         this.userConverter = userConverter;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -79,6 +76,7 @@ public class UserServiceImpl implements UserService {
         User user = userConverter.toEntity(userDTO);
         userRepository.merge(user);
     }
+
     @Override
     @Transactional
     public void updatePassword(UserDTO userDTO) {
@@ -116,8 +114,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDTO updateUserRole(Long userId, Long roleId) {
         User user = userRepository.findById(userId);
-        Role role = roleRepository.findById(roleId);
-        user.setRole(role);
+//        Role role = roleRepository.findById(roleId);
+//        user.setRole(role);
+        user.setRole(RoleEnum.ADMINISTRATOR);
         userRepository.merge(user);
         return userConverter.toDTO(user);
     }

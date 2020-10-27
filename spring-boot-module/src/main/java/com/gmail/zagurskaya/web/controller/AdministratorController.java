@@ -1,11 +1,9 @@
 package com.gmail.zagurskaya.web.controller;
 
 import com.gmail.zagurskaya.service.ReviewsService;
-import com.gmail.zagurskaya.service.RoleService;
 import com.gmail.zagurskaya.service.UserService;
 import com.gmail.zagurskaya.service.Util.UserUtil;
 import com.gmail.zagurskaya.service.model.ReviewsDTO;
-import com.gmail.zagurskaya.service.model.RoleDTO;
 import com.gmail.zagurskaya.service.model.UserDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -41,14 +39,12 @@ import static com.gmail.zagurskaya.web.constant.URLConstant.URL_USERS;
 public class AdministratorController {
     private static final Logger logger = LogManager.getLogger(AdministratorController.class);
     private final UserService userService;
-    private final RoleService roleService;
     private final ReviewsService reviewsService;
     private final UserUtil userUtil;
 
 
-    public AdministratorController(UserService userService, RoleService roleService, ReviewsService reviewsService, UserUtil userUtil) {
+    public AdministratorController(UserService userService, ReviewsService reviewsService, UserUtil userUtil) {
         this.userService = userService;
-        this.roleService = roleService;
         this.reviewsService = reviewsService;
         this.userUtil = userUtil;
     }
@@ -64,9 +60,9 @@ public class AdministratorController {
     @GetMapping(URL_USERS)
     public String getUsersInAdminPage(Model model) {
         List<UserDTO> users = userService.getActionUsersSortedByUserName();
-        List<RoleDTO> roles = roleService.getRoles();
+//        List<RoleDTO> roles = roleService.getRoles();
         model.addAttribute("users", users);
-        model.addAttribute("roles", roles);
+//        model.addAttribute("roles", roles);
         return PATH_ADMINISTRATOR_USERS;
     }
 
