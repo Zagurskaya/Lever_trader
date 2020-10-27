@@ -3,7 +3,6 @@ package com.gmail.zagurskaya.service.converter.impl;
 import com.gmail.zagurskaya.repository.UserRepository;
 import com.gmail.zagurskaya.repository.model.RoleEnum;
 import com.gmail.zagurskaya.repository.model.User;
-import com.gmail.zagurskaya.repository.model.UserInfo;
 import com.gmail.zagurskaya.service.converter.UserConverter;
 import com.gmail.zagurskaya.service.model.UserDTO;
 import org.springframework.stereotype.Component;
@@ -22,15 +21,13 @@ public class UserConverterImpl implements UserConverter {
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
         userDTO.setUsername(user.getUsername());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
         userDTO.setPassword(user.getPassword());
         userDTO.setRole(user.getRole().name());
-        if (user.getUserInfo() != null) {
-            userDTO.setLastName(user.getUserInfo().getLastName());
-            userDTO.setFirstName(user.getUserInfo().getFirstName());
-            userDTO.setPatronymic(user.getUserInfo().getPatronymic());
-        }
+        userDTO.setEmail(user.getEmail());
+        userDTO.setCreatedData(user.getCreatedData());
         userDTO.setIsNotActive(user.getIsNotActive());
-
         return userDTO;
     }
 
@@ -39,16 +36,12 @@ public class UserConverterImpl implements UserConverter {
         User user = new User();
         user.setId(userDTO.getId());
         user.setUsername(userDTO.getUsername());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
         user.setPassword(userDTO.getPassword());
         user.setRole(RoleEnum.valueOf(userDTO.getRole()));
-
-        UserInfo userInfo = new UserInfo();
-        userInfo.setFirstName(userDTO.getFirstName());
-        userInfo.setLastName(userDTO.getLastName());
-        userInfo.setPatronymic(userDTO.getPatronymic());
-        user.setUserInfo(userInfo);
-        userInfo.setUser(user);
-
+        user.setEmail(userDTO.getEmail());
+        user.setCreatedData(userDTO.getCreatedData());
         user.setIsNotActive(userDTO.getIsNotActive());
         return user;
     }

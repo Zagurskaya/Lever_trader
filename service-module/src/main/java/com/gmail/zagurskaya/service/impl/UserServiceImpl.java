@@ -1,6 +1,5 @@
 package com.gmail.zagurskaya.service.impl;
 
-import com.gmail.zagurskaya.repository.UserInfoRepository;
 import com.gmail.zagurskaya.repository.UserRepository;
 import com.gmail.zagurskaya.repository.model.RoleEnum;
 import com.gmail.zagurskaya.repository.model.User;
@@ -28,14 +27,14 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userConverter = userConverter;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<UserDTO> getUsers() {
         List<User> users = userRepository.findAll(0, Integer.MAX_VALUE);
         List<UserDTO> dtos = users.stream()
@@ -86,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDTO loadUserByUsername(String name) {
         User loaded = userRepository.loadUserByUsername(name);
         UserDTO userDTO = userConverter.toDTO(loaded);
@@ -104,7 +103,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDTO getUserById(Long id) {
         User loaded = (User) userRepository.findById(id);
         UserDTO userDTO = userConverter.toDTO(loaded);

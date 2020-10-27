@@ -29,7 +29,7 @@ public class CashController {
     @GetMapping
     public String getUsersPage(Model model) {
         UserDTO user = userUtil.getActualUser();
-        String FullName = user.getFirstName()+" "+user.getLastName()+" "+user.getPatronymic();
+        String FullName = user.getFirstName() + " " + user.getLastName();
         model.addAttribute("FullName", FullName);
         return PATH_CASH_HOME;
     }

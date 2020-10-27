@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.sql.Date;
 
 
 @Entity
@@ -31,21 +32,24 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "firstname")
+    private String firstName;
+
+    @Column(name = "lastname")
+    private String lastName;
+
     @Column(name = "password")
     private String password;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "createdata")
+    private Date createdData;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
-
-    @OneToOne(
-            fetch = FetchType.LAZY,
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private UserInfo userInfo;
-
 
     @Column(name = "isnotactive")
     private Boolean isNotActive;
@@ -82,12 +86,36 @@ public class User {
         this.role = role;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getCreatedData() {
+        return createdData;
+    }
+
+    public void setCreatedData(Date createdData) {
+        this.createdData = createdData;
     }
 
     public Boolean getIsNotActive() {
@@ -103,9 +131,12 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", createdData=" + createdData +
                 ", role=" + role +
-                ", userInfo=" + userInfo +
                 ", isNotActive=" + isNotActive +
                 '}';
     }

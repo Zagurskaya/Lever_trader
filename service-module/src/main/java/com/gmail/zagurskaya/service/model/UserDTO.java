@@ -1,9 +1,8 @@
 package com.gmail.zagurskaya.service.model;
 
-import com.gmail.zagurskaya.repository.model.UserInfo;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Date;
 
 public class UserDTO {
 
@@ -19,14 +18,17 @@ public class UserDTO {
     private String lastName;
     @NotNull
     private String firstName;
+
     @NotNull
-    private String patronymic;
+    private String email;
+
+    @NotNull
+    private Date createdData;
 
     private String role;
     @NotNull
     private Long roleId;
-//    @NotNull
-    private UserInfo userInfo;
+
 //    @NotNull
     private Boolean isNotActive;
 
@@ -72,12 +74,20 @@ public class UserDTO {
         this.firstName = firstName;
     }
 
-    public String getPatronymic() {
-        return patronymic;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPatronymic(String patronymic) {
-        this.patronymic = patronymic;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getCreatedData() {
+        return createdData;
+    }
+
+    public void setCreatedData(Date createdData) {
+        this.createdData = createdData;
     }
 
     public String getRole() {
@@ -88,13 +98,6 @@ public class UserDTO {
         this.role = role;
     }
 
-    public UserInfo getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
-    }
 
     public Boolean getIsNotActive() {
         return isNotActive;
@@ -118,7 +121,11 @@ public class UserDTO {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", role=" + role +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                ", roleId=" + roleId +
                 ", isNotActive=" + isNotActive +
                 '}';
     }
