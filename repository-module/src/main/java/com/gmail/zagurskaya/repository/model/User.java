@@ -1,18 +1,34 @@
 package com.gmail.zagurskaya.repository.model;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.sql.Date;
-
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
+//@AllArgsConstructor
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "username"
+        }),
+        @UniqueConstraint(columnNames = {
+                "email"
+        })
+})
 public class User {
 
     @Id
@@ -38,7 +54,7 @@ public class User {
     @Column(name = "createdata")
     private Date createdData;
 
-    @Column(name = "role")
+    @Column(name = "role_id")
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
@@ -58,22 +74,6 @@ public class User {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public RoleEnum getRole() {
-        return role;
-    }
-
-    public void setRole(RoleEnum role) {
-        this.role = role;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -90,6 +90,14 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -104,6 +112,14 @@ public class User {
 
     public void setCreatedData(Date createdData) {
         this.createdData = createdData;
+    }
+
+    public RoleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEnum role) {
+        this.role = role;
     }
 
     @Override

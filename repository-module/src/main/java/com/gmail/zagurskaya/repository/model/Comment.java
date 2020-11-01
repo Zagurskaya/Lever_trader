@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
-@Table(name = "Comment")
+@Table(name = "comment")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
