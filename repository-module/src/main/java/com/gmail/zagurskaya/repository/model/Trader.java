@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "trader")
-@Where(clause = "isnotactive = 0")
 public class Trader {
 
     @Id
@@ -22,9 +21,6 @@ public class Trader {
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "isnotactive")
-    private Boolean isNotActive;
 
     public Long getId() {
         return id;
@@ -42,28 +38,11 @@ public class Trader {
         this.name = name;
     }
 
-    public Boolean getIsNotActive() {
-        return isNotActive;
-    }
-
-    public void setIsNotActive(Boolean notActive) {
-        isNotActive = notActive;
-    }
-
-    public Boolean getNotActive() {
-        return isNotActive;
-    }
-
-    public void setNotActive(Boolean notActive) {
-        isNotActive = notActive;
-    }
-
     @Override
     public String toString() {
         return "Trader{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", isNotActive=" + isNotActive +
                 '}';
     }
 }

@@ -9,4 +9,8 @@ public interface UserRepository extends GenericRepository<Long, User>  {
     User loadUserByUsername(String name);
 
     List<User> getActionUsersSortedByUserName();
+
+    boolean existsByUsername(String username);
+
+    boolean existsByEmail(String email);
 }

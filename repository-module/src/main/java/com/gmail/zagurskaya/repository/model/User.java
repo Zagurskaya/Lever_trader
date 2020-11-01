@@ -1,27 +1,18 @@
 package com.gmail.zagurskaya.repository.model;
 
-import org.hibernate.annotations.Where;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.sql.Date;
 
 
 @Entity
 @Table(name = "users")
-//@SQLDelete(sql = "UPDATE users SET isnotactive = 1 WHERE id=?")
-@Where(clause = "isnotactive = 0")
 public class User {
 
     @Id
@@ -50,9 +41,6 @@ public class User {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
-
-    @Column(name = "isnotactive")
-    private Boolean isNotActive;
 
     public Long getId() {
         return id;
@@ -118,14 +106,6 @@ public class User {
         this.createdData = createdData;
     }
 
-    public Boolean getIsNotActive() {
-        return isNotActive;
-    }
-
-    public void setIsNotActive(Boolean notActive) {
-        isNotActive = notActive;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -137,7 +117,6 @@ public class User {
                 ", email='" + email + '\'' +
                 ", createdData=" + createdData +
                 ", role=" + role +
-                ", isNotActive=" + isNotActive +
                 '}';
     }
 }

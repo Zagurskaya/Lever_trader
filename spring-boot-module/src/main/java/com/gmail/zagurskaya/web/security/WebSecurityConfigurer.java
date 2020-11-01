@@ -15,12 +15,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
 import static com.gmail.zagurskaya.web.constant.RolesConstant.CONTROLLER;
-import static com.gmail.zagurskaya.web.constant.RolesConstant.KASSIR;
+import static com.gmail.zagurskaya.web.constant.RolesConstant.GUEST;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_403;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_ADMIN;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_CASH;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_CONFIRM;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_CONTROLLER;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_LOGIN;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_SIGN_UP;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_SIGN_IN;
 
 @Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -51,19 +52,23 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
+
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(URL_CASH)
-                .hasAuthority(KASSIR)
+//                .antMatchers(URL_SIGN_UP)
+//                .hasAuthority(GUEST)
+//                .antMatchers(URL_CONFIRM)
+//                .hasAuthority(GUEST)
                 .antMatchers(URL_CONTROLLER)
                 .hasAuthority(CONTROLLER)
                 .antMatchers(URL_ADMIN)
                 .hasAuthority(ADMIN)
-                .antMatchers("/", URL_403)
-                .permitAll()
+//                .antMatchers(URL_SIGN_UP, URL_CONFIRM, URL_SIGN_IN, "/", URL_403)
+//                .permitAll()
+                .antMatchers("/api/auth/**").permitAll()
                 .and()
                 .formLogin()
-                .loginPage(URL_LOGIN)
+                .loginPage(URL_SIGN_IN)
                 .successHandler(authenticationSuccessHandler())
                 .permitAll()
                 .and()

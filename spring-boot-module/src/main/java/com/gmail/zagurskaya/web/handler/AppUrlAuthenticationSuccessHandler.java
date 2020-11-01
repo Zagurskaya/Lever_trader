@@ -18,7 +18,7 @@ import java.util.Collection;
 
 import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
 import static com.gmail.zagurskaya.web.constant.RolesConstant.CONTROLLER;
-import static com.gmail.zagurskaya.web.constant.RolesConstant.KASSIR;
+import static com.gmail.zagurskaya.web.constant.RolesConstant.GUEST;
 
 public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -46,13 +46,13 @@ public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     private String determineTargetUrl(Authentication authentication) {
-        boolean isKassir = false;
+        boolean isGuest = false;
         boolean isController = false;
         boolean isAdministrator = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority authority : authorities) {
-            if (authority.getAuthority().equals(KASSIR)) {
-                isKassir = true;
+            if (authority.getAuthority().equals(GUEST)) {
+                isGuest = true;
                 break;
             } else if (authority.getAuthority().equals(CONTROLLER)) {
                 isController = true;
@@ -62,8 +62,8 @@ public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccess
                 break;
             }
         }
-        if (isKassir) {
-            return "/cash";
+        if (isGuest) {
+            return "/api/auth";
         } else if (isController) {
             return "/controller";
         } else if (isAdministrator) {

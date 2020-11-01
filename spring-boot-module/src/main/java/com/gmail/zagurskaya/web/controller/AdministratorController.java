@@ -57,14 +57,14 @@ public class AdministratorController {
         return PATH_ADMINISTRATOR_ADMIN;
     }
 
-    @GetMapping(URL_USERS)
-    public String getUsersInAdminPage(Model model) {
-        List<UserDTO> users = userService.getActionUsersSortedByUserName();
-//        List<RoleDTO> roles = roleService.getRoles();
-        model.addAttribute("users", users);
-//        model.addAttribute("roles", roles);
-        return PATH_ADMINISTRATOR_USERS;
-    }
+//    @GetMapping(URL_USERS)
+//    public String getUsersInAdminPage(Model model) {
+//        List<UserDTO> users = userService.getActionUsersSortedByUserName();
+////        List<RoleDTO> roles = roleService.getRoles();
+//        model.addAttribute("users", users);
+////        model.addAttribute("roles", roles);
+//        return PATH_ADMINISTRATOR_USERS;
+//    }
 
     @GetMapping(URL_ADMINISTRATOR_NEW_USERS)
     public String getAddUserInAdminPage() {
@@ -72,45 +72,45 @@ public class AdministratorController {
         return PATH_ADMINISTRATOR_NEW_USERS;
     }
 
-    @PostMapping(URL_ADMINISTRATOR_NEW_USERS_POST)
-    public String postAddUserInAdminPage(@ModelAttribute(value = "user") UserDTO userDTO,
-                                         Model model){
-        userDTO.setIsNotActive(false);
-        userService.add(userDTO);
-        return PATH_ADMINISTRATOR_NEW_USERS_POST;
-    }
+//    @PostMapping(URL_ADMINISTRATOR_NEW_USERS_POST)
+//    public String postAddUserInAdminPage(@ModelAttribute(value = "user") UserDTO userDTO,
+//                                         Model model){
+//        userDTO.setIsNotActive(false);
+//        userService.add(userDTO);
+//        return PATH_ADMINISTRATOR_NEW_USERS_POST;
+//    }
+//
+//    @PostMapping(URL_ADMINISTRATOR_USERS_DELETE)
+//    public String postDeleteUsersInAdminPage(
+//            @RequestParam("ids") List<Long> ids,
+//            Model model
+//    ) {
+//        userService.deleteUsersList(ids);
+//        return PATH_ADMINISTRATOR_NEW_USERS_POST;
+//    }
 
-    @PostMapping(URL_ADMINISTRATOR_USERS_DELETE)
-    public String postDeleteUsersInAdminPage(
-            @RequestParam("ids") List<Long> ids,
-            Model model
-    ) {
-        userService.deleteUsersList(ids);
-        return PATH_ADMINISTRATOR_NEW_USERS_POST;
-    }
+//    @PostMapping(URL_ADMINISTRATOR_UPDATE_ROLE)
+//    public String postUpdateUserRoleInAdminPage(
+//            @RequestParam("id") Long userId,
+//            @RequestParam("roleId") Long roleId,
+//            Model model) {
+//
+//        UserDTO userDTO = userService.updateUserRole(userId, roleId);
+//        return PATH_ADMINISTRATOR_NEW_USERS_POST;
+//    }
 
-    @PostMapping(URL_ADMINISTRATOR_UPDATE_ROLE)
-    public String postUpdateUserRoleInAdminPage(
-            @RequestParam("id") Long userId,
-            @RequestParam("roleId") Long roleId,
-            Model model) {
-
-        UserDTO userDTO = userService.updateUserRole(userId, roleId);
-        return PATH_ADMINISTRATOR_NEW_USERS_POST;
-    }
-
-    @PostMapping(URL_ADMINISTRATOR_UPDATE_PASSWORD)
-    public String postUpdateUserPasswordSameAsLoginInAdminPage(
-            @RequestParam("id") Long userId,
-            Model model
-    ) {
-
-        UserDTO userDTO = userService.getUserById(userId);
-        userDTO.setPassword(userService.returnPasswordSameAsLogin(userDTO));
-        userService.updatePassword(userDTO);
-        logger.error("new password = " + userService.returnPasswordSameAsLogin(userDTO));
-        return PATH_ADMINISTRATOR_NEW_USERS_POST;
-    }
+//    @PostMapping(URL_ADMINISTRATOR_UPDATE_PASSWORD)
+//    public String postUpdateUserPasswordSameAsLoginInAdminPage(
+//            @RequestParam("id") Long userId,
+//            Model model
+//    ) {
+//
+//        UserDTO userDTO = userService.getUserById(userId);
+//        userDTO.setPassword(userService.returnPasswordSameAsLogin(userDTO));
+//        userService.updatePassword(userDTO);
+//        logger.error("new password = " + userService.returnPasswordSameAsLogin(userDTO));
+//        return PATH_ADMINISTRATOR_NEW_USERS_POST;
+//    }
 
     @GetMapping(URL_ADMINISTRATOR_Comment)
     public String getCommentInAdminPage(Model model) {

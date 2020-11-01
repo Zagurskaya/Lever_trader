@@ -53,8 +53,7 @@ public class TraderServiceImpl implements TraderService {
     @Transactional
     public void delete(Long id) {
         Trader trader = traderRepository.findById(id);
-        trader.setIsNotActive(true);
-        traderRepository.merge(trader);
+        traderRepository.remove(trader);
     }
 
     @Override

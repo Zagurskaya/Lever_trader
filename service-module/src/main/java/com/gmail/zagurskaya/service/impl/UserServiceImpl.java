@@ -1,7 +1,6 @@
 package com.gmail.zagurskaya.service.impl;
 
 import com.gmail.zagurskaya.repository.UserRepository;
-import com.gmail.zagurskaya.repository.model.RoleEnum;
 import com.gmail.zagurskaya.repository.model.User;
 import com.gmail.zagurskaya.service.UserService;
 import com.gmail.zagurskaya.service.converter.UserConverter;
@@ -13,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,41 +46,36 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(UserDTO userDTO) {
+        LocalDate date = LocalDate.now();
         User user = userConverter.toEntity(userDTO);
-        String password = randomPasswordWithEncoder(6);
+        String password = encoder(userDTO.getPassword());
         user.setPassword(password);
+        user.setCreatedData(java.sql.Date.valueOf(date));
         userRepository.persist(user);
     }
 
     @Override
-    @Transactional
-    public void deleteUsersList(List<Long> ids) {
-        ids.stream().forEach(id -> {
-            delete(id);
-            logger.info("deleted user with id = " + id);
-        });
+    public void delete(Long id) {
+        User user = userRepository.findById(id);
+        userRepository.remove(user);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        User user = userRepository.findById(id);
-        user.setIsNotActive(true);
-        userRepository.merge(user);
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    @Transactional
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     @Override
     @Transactional
     public void update(UserDTO userDTO) {
         User user = userConverter.toEntity(userDTO);
-        userRepository.merge(user);
-    }
-
-    @Override
-    @Transactional
-    public void updatePassword(UserDTO userDTO) {
-        User user = userRepository.findById(userDTO.getId());
-        user.setPassword(userDTO.getPassword());
         userRepository.merge(user);
     }
 
@@ -93,16 +88,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public List<UserDTO> getActionUsersSortedByUserName() {
-        List<User> users = userRepository.getActionUsersSortedByUserName();
-        List<UserDTO> dtos = users.stream()
-                .map(userConverter::toDTO)
-                .collect(Collectors.toList());
-        return dtos;
-    }
-
-    @Override
     @Transactional(readOnly = true)
     public UserDTO getUserById(Long id) {
         User loaded = (User) userRepository.findById(id);
@@ -110,35 +95,8 @@ public class UserServiceImpl implements UserService {
         return userDTO;
     }
 
-    @Override
-    public UserDTO updateUserRole(Long userId, Long roleId) {
-        User user = userRepository.findById(userId);
-//        Role role = roleRepository.findById(roleId);
-//        user.setRole(role);
-        user.setRole(RoleEnum.ADMINISTRATOR);
-        userRepository.merge(user);
-        return userConverter.toDTO(user);
-    }
-
-    private String randomPasswordWithEncoder(int length) {
-        String password = "";
-        for (int i = 0; i < length; i++) {
-            int oneNumber = (int) (Math.random() * 10);
-            password += String.valueOf(oneNumber);
-        }
-        logger.info("New password => " + password);
-        return encoder(password);
-    }
-
-    public String returnPasswordSameAsLogin(UserDTO userDTO) {
-
-        return encoder(userDTO.getUsername());
-    }
-
-
     private String encoder(String word) {
         String encode = passwordEncoder.encode(word);
-        logger.info("New password encoder => " + encode);
         return encode;
 
     }

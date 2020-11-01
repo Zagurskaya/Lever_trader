@@ -27,7 +27,6 @@ public class UserConverterImpl implements UserConverter {
         userDTO.setRole(user.getRole().name());
         userDTO.setEmail(user.getEmail());
         userDTO.setCreatedData(user.getCreatedData());
-        userDTO.setIsNotActive(user.getIsNotActive());
         return userDTO;
     }
 
@@ -42,7 +41,6 @@ public class UserConverterImpl implements UserConverter {
         user.setRole(RoleEnum.valueOf(userDTO.getRole()));
         user.setEmail(userDTO.getEmail());
         user.setCreatedData(userDTO.getCreatedData());
-        user.setIsNotActive(userDTO.getIsNotActive());
         return user;
     }
 }

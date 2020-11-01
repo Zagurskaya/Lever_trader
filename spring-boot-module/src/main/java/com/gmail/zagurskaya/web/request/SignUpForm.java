@@ -1,42 +1,33 @@
-package com.gmail.zagurskaya.service.model;
+package com.gmail.zagurskaya.web.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 
-public class UserDTO {
+public class SignUpForm {
 
-//    @NotNull
-    private Long id;
-    @NotNull
-    @Size(max = 50)
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String username;
-//    @NotNull
-//    @Size(max = 100)
-    private String password;
-    @NotNull
+
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String lastName;
-    @NotNull
+
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String firstName;
 
-    @NotNull
+    @NotBlank
+    @Size(max = 60)
+    @Email
     private String email;
 
-    @NotNull
-    private Date createdData;
-
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String role;
-    @NotNull
-    private Long roleId;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -44,14 +35,6 @@ public class UserDTO {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getLastName() {
@@ -78,14 +61,6 @@ public class UserDTO {
         this.email = email;
     }
 
-    public Date getCreatedData() {
-        return createdData;
-    }
-
-    public void setCreatedData(Date createdData) {
-        this.createdData = createdData;
-    }
-
     public String getRole() {
         return role;
     }
@@ -94,25 +69,14 @@ public class UserDTO {
         this.role = role;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
     @Override
     public String toString() {
-        return "UserDTO{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+        return "SignUpForm{" +
+                "username='" + username + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
-                ", roleId=" + roleId +
                 '}';
     }
 }

@@ -14,17 +14,12 @@ public interface UserService {
 
     void update(UserDTO user);
 
-    void updatePassword(UserDTO user);
-
     UserDTO loadUserByUsername(String name);
-
-    List<UserDTO> getActionUsersSortedByUserName();
 
     UserDTO getUserById(Long id);
 
-    String returnPasswordSameAsLogin(UserDTO userDTO);
+    boolean existsByUsername(String username);
 
-    UserDTO updateUserRole(Long userId, Long roleId);
+    boolean existsByEmail(String email);
 
-    void deleteUsersList(List<Long> ids);
 }

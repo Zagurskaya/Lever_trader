@@ -24,4 +24,14 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User> implem
         return q.getResultList();
     }
 
+    @Override
+    public boolean existsByUsername(String username) {
+        return false;
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return false;
+    }
+
 }

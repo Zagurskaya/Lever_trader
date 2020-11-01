@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+
 import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
 import static com.gmail.zagurskaya.web.constant.RolesConstant.SECURE_REST_API;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_REST_API;
@@ -38,7 +39,8 @@ public class ApiSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher(URL_REST_API)
+//        http.antMatcher(URL_REST_API)
+        http.antMatcher("/admin")
                 .authorizeRequests()
                 .anyRequest()
                 .hasAuthority(ADMIN)

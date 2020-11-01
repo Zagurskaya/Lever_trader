@@ -11,9 +11,6 @@ public class TraderDTO {
     @Size(max = 50)
     private String name;
 
-    //    @NotNull
-    private Boolean isNotActive;
-
 
     public Long getId() {
         return id;
@@ -31,20 +28,11 @@ public class TraderDTO {
         this.name = name;
     }
 
-    public Boolean getIsNotActive() {
-        return isNotActive;
-    }
-
-    public void setIsNotActive(Boolean notActive) {
-        isNotActive = notActive;
-    }
-
     @Override
     public String toString() {
         return "TraderDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", isNotActive=" + isNotActive +
                 '}';
     }
 }
