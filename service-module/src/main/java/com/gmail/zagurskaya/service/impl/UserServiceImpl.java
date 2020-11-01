@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -35,9 +36,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(UserDTO userDTO) {
+        LocalDate date = LocalDate.now();
         User user = userConverter.toEntity(userDTO);
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
+        user.setCreatedData(java.sql.Date.valueOf(date));
         userRepository.save(user);
     }
 
