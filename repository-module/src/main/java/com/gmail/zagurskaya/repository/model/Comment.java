@@ -1,5 +1,9 @@
 package com.gmail.zagurskaya.repository.model;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +16,9 @@ import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
+@Getter
+@Setter
+@ToString
 @Table(name = "comment")
 public class Comment {
     @Id
@@ -27,72 +34,12 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user ;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "trader_id", nullable = false)
-    private Trader trader ;
+    private Trader trader;
 
     @Column(name = "approved")
     private Boolean approved;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Trader getTrader() {
-        return trader;
-    }
-
-    public void setTrader(Trader trader) {
-        this.trader = trader;
-    }
-
-    public Boolean getApproved() {
-        return approved;
-    }
-
-    public void setApproved(Boolean approved) {
-        this.approved = approved;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", message='" + message + '\'' +
-                ", createdDate=" + createdDate +
-                ", user=" + user +
-                ", trader=" + trader +
-                ", approved=" + approved +
-                '}';
-    }
 }

@@ -17,7 +17,6 @@ public class AppUserPrincipal implements UserDetails {
     public AppUserPrincipal(UserDTO userDto) {
         this.user = userDto;
         this.grantedAuthorities = new HashSet<>();
-//        grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
         grantedAuthorities.add(new SimpleGrantedAuthority(userDto.getRole()));
     }
 

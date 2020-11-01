@@ -1,19 +1,13 @@
 package com.gmail.zagurskaya.service.impl;
 
-import com.gmail.zagurskaya.repository.TraderRepository;
-import com.gmail.zagurskaya.repository.model.Trader;
 import com.gmail.zagurskaya.service.TraderService;
-import com.gmail.zagurskaya.service.converter.TraderConverter;
 import com.gmail.zagurskaya.service.model.TraderDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

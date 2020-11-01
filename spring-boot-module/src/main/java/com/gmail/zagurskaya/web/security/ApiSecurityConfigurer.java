@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
-import static com.gmail.zagurskaya.web.constant.RolesConstant.SECURE_REST_API;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_REST_API;
 
 @Configuration
 @Order(1)

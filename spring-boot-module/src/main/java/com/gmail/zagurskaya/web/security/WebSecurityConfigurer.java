@@ -14,7 +14,6 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
-import static com.gmail.zagurskaya.web.constant.RolesConstant.CONTROLLER;
 import static com.gmail.zagurskaya.web.constant.RolesConstant.GUEST;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_403;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_ADMIN;
@@ -59,8 +58,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 //                .hasAuthority(GUEST)
 //                .antMatchers(URL_CONFIRM)
 //                .hasAuthority(GUEST)
-                .antMatchers(URL_CONTROLLER)
-                .hasAuthority(CONTROLLER)
+//                .antMatchers(URL_CONTROLLER)
+//                .hasAuthority(CONTROLLER)
                 .antMatchers(URL_ADMIN)
                 .hasAuthority(ADMIN)
 //                .antMatchers(URL_SIGN_UP, URL_CONFIRM, URL_SIGN_IN, "/", URL_403)
