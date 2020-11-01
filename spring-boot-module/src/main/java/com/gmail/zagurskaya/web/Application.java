@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
         "com.gmail.zagurskaya.repository",
         "com.gmail.zagurskaya.service",
         "com.gmail.zagurskaya.web"})
-@EntityScan("com.gmail.zagurskaya.repository.model")
+//@EntityScan("com.gmail.zagurskaya.repository.model")
 public class Application {
 
     public static void main(String[] args) {

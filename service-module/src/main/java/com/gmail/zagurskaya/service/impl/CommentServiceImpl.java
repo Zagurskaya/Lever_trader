@@ -12,37 +12,37 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class CommentServiceImpl implements CommentService {
     private static final Logger logger = LogManager.getLogger(CommentServiceImpl.class);
 
-    private final CommentConverter CommentConverter;
-    private final CommentRepository CommentRepository;
-
-    @Autowired
-    public CommentServiceImpl(CommentConverter CommentConverter, CommentRepository CommentRepository) {
-        this.CommentConverter = CommentConverter;
-        this.CommentRepository = CommentRepository;
-    }
+//    private final CommentConverter CommentConverter;
+//    private final CommentRepository CommentRepository;
+//
+//    @Autowired
+//    public CommentServiceImpl(CommentConverter CommentConverter, CommentRepository CommentRepository) {
+//        this.CommentConverter = CommentConverter;
+//        this.CommentRepository = CommentRepository;
+//    }
 
     @Override
     @Transactional
     public List<CommentDTO> getComment() {
-        List<Comment> Comments = CommentRepository.findAll(0, Integer.MAX_VALUE);
-        List<CommentDTO> CommentsDTO = Comments.stream()
-                .map(CommentConverter::toDTO)
-                .collect(Collectors.toList());
-        return CommentsDTO;
+//        List<Comment> Comments = CommentRepository.findAll();
+//        List<CommentDTO> CommentsDTO = Comments.stream()
+//                .map(CommentConverter::toDTO)
+//                .collect(Collectors.toList());
+//        return CommentsDTO;
+        return null;
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
 
-        CommentRepository.remove(CommentRepository.findById(id));
+//        CommentRepository.remove(CommentRepository.findById(id));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.gmail.zagurskaya.service.converter.impl;
 
-import com.gmail.zagurskaya.repository.TraderRepository;
 import com.gmail.zagurskaya.repository.model.Trader;
 import com.gmail.zagurskaya.service.converter.TraderConverter;
 import com.gmail.zagurskaya.service.model.TraderDTO;
@@ -8,12 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TraderConverterImpl implements TraderConverter {
-
-    private final TraderRepository traderRepository;
-
-    public TraderConverterImpl(TraderRepository traderRepository) {
-        this.traderRepository = traderRepository;
-    }
 
     @Override
     public TraderDTO toDTO(Trader trader) {

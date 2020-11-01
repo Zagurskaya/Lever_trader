@@ -1,7 +1,7 @@
 package com.gmail.zagurskaya.repository.model;
 
 public enum RoleEnum {
-    ADMINISTRATOR,
+    ADMIN,
     TRADER,
     GUEST
 }

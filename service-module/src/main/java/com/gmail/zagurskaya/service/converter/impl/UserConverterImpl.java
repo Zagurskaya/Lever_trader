@@ -10,12 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserConverterImpl implements UserConverter {
 
-    private final UserRepository userRepository;
-
-    public UserConverterImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Override
     public UserDTO toDTO(User user) {
         UserDTO userDTO = new UserDTO();

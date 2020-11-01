@@ -83,7 +83,7 @@ public class GuestController {
         userDTO.setLastName("Ivan");
         userDTO.setEmail("ivan@tut.by");
         userDTO.setPassword("123456789");
-        userDTO.setRole("ADMINISTRATOR");
+        userDTO.setRole("ADMIN");
         userService.add(userDTO);
         logger.info(" save user with  => " + userDTO);
         return new ResponseEntity(HttpStatus.OK);
