@@ -1,7 +1,9 @@
 package com.gmail.zagurskaya.web.controller;
 
+import com.gmail.zagurskaya.service.UserRedisService;
 import com.gmail.zagurskaya.service.UserService;
 import com.gmail.zagurskaya.service.model.UserDTO;
+import com.gmail.zagurskaya.service.model.UserRedisDTO;
 import com.gmail.zagurskaya.web.request.ConfirmForm;
 import com.gmail.zagurskaya.web.request.SignUpForm;
 import org.slf4j.Logger;
@@ -28,12 +30,13 @@ public class GuestController {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-
+    private final UserRedisService userRedisService;
 
     @Autowired
-    public GuestController(UserService userService, PasswordEncoder passwordEncoder) {
+    public GuestController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.userRedisService = userRedisService;
     }
 
     @PostMapping("/signup")
@@ -49,6 +52,18 @@ public class GuestController {
         }
         String token = passwordEncoder.encode(signUpRequest.getUsername());
         logger.info("Token => " + token);
+
+//        todo token to email and user to redis
+        UserRedisDTO user = new UserRedisDTO();
+        user.setId(token);
+        user.setUsername("ivan");
+        user.setFirstName("Ivan");
+        user.setLastName("Ivan");
+        user.setEmail("ivan@tut.by");
+        user.setRole("ADMIN");
+        userRedisService.add(user);
+
+//        userRedisService.findAll();
 
 //        todo token to email
         return new ResponseEntity(HttpStatus.OK);

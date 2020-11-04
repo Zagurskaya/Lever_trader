@@ -1,4 +1,4 @@
-package com.gmail.zagurskaya.repository;
+package com.gmail.zagurskaya.redis;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

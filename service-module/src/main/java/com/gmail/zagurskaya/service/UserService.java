@@ -3,6 +3,7 @@ package com.gmail.zagurskaya.service;
 import com.gmail.zagurskaya.service.model.UserDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -19,5 +20,4 @@ public interface UserService {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
-
 }

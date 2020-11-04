@@ -4,7 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-@SpringBootApplication(scanBasePackages ={
+@SpringBootApplication(scanBasePackages = {
+        "com.gmail.zagurskaya.redis",
         "com.gmail.zagurskaya.repository",
         "com.gmail.zagurskaya.service",
         "com.gmail.zagurskaya.web"})

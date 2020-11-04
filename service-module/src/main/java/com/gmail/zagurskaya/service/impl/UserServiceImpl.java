@@ -1,5 +1,7 @@
 package com.gmail.zagurskaya.service.impl;
 
+import com.gmail.zagurskaya.redis.UserRedisRepository;
+import com.gmail.zagurskaya.redis.model.UserRedis;
 import com.gmail.zagurskaya.repository.UserRepository;
 import com.gmail.zagurskaya.repository.model.User;
 import com.gmail.zagurskaya.service.UserService;
@@ -12,7 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,12 +24,14 @@ public class UserServiceImpl implements UserService {
     private final UserConverter userConverter;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserRedisRepository userRedisRepository;
 
     @Autowired
-    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserConverter userConverter, UserRepository userRepository, PasswordEncoder passwordEncoder, UserRedisRepository userRedisRepository) {
         this.userConverter = userConverter;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userRedisRepository = userRedisRepository;
     }
 
     @Override
