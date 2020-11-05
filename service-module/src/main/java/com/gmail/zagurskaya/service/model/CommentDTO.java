@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,7 +18,7 @@ public class CommentDTO {
     @Size(max = 200)
     private String message;
     @NotNull
-    private Date createdDate;
+    private LocalDate createdDate;
     @NotNull
     private UserDTO user;
     @NotNull

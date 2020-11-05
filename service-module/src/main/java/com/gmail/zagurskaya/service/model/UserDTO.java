@@ -7,7 +7,7 @@ import lombok.ToString;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -31,7 +31,7 @@ public class UserDTO {
     @Size(min = 3, max = 50)
     private String email;
     @NotNull
-    private Date createdData;
+    private LocalDate createdData;
     @NotBlank
     @Size(min = 3, max = 50)
     private String role;

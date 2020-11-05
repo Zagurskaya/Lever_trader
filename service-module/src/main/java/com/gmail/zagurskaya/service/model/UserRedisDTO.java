@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -29,7 +29,7 @@ public class UserRedisDTO implements Serializable {
     @Size(min = 3, max = 50)
     private String email;
     @NotNull
-    private Date createdData;
+    private LocalDateTime createdData;
     @NotBlank
     @Size(min = 3, max = 50)
     private String role;

@@ -1,6 +1,5 @@
 package com.gmail.zagurskaya.service.converter.impl;
 
-import com.gmail.zagurskaya.redis.model.UserRedis;
 import com.gmail.zagurskaya.repository.model.RoleEnum;
 import com.gmail.zagurskaya.repository.model.User;
 import com.gmail.zagurskaya.service.converter.UserConverter;

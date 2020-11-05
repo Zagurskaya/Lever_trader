@@ -42,11 +42,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void add(UserDTO userDTO) {
-        LocalDate date = LocalDate.now();
         User user = userConverter.toEntity(userDTO);
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
-        user.setCreatedData(java.sql.Date.valueOf(date));
         userRepository.save(user);
     }
 

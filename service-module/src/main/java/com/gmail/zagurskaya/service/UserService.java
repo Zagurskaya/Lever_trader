@@ -3,7 +3,6 @@ package com.gmail.zagurskaya.service;
 import com.gmail.zagurskaya.service.model.UserDTO;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UserService {
 
