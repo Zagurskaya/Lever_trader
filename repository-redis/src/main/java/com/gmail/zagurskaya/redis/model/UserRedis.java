@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -24,7 +24,7 @@ public class UserRedis implements Serializable {
 
     private String email;
 
-    private Date createdData;
+    private LocalDate createdData;
 
     private String role;
 

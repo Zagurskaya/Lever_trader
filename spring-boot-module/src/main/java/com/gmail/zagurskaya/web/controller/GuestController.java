@@ -6,6 +6,7 @@ import com.gmail.zagurskaya.service.model.UserDTO;
 import com.gmail.zagurskaya.service.model.UserRedisDTO;
 import com.gmail.zagurskaya.web.request.ConfirmForm;
 import com.gmail.zagurskaya.web.request.SignUpForm;
+import com.gmail.zagurskaya.web.validation.DateValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -42,28 +45,26 @@ public class GuestController {
     @PostMapping("/signup")
     public ResponseEntity sendTokenToEmail(@RequestBody @Valid SignUpForm signUpRequest) {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity<String>("Fail -> Username is already taken!",
+            return new ResponseEntity<>("Fail -> Username is already taken!",
                     HttpStatus.BAD_REQUEST);
         }
 
         if (userService.existsByEmail(signUpRequest.getEmail())) {
-            return new ResponseEntity<String>("Fail -> Email is already in use!",
+            return new ResponseEntity<>("Fail -> Email is already in use!",
                     HttpStatus.BAD_REQUEST);
         }
         String token = passwordEncoder.encode(signUpRequest.getUsername());
         logger.info("Token => " + token);
 
-//        todo token to email and user to redis
         UserRedisDTO user = new UserRedisDTO();
         user.setId(token);
-        user.setUsername("ivan");
-        user.setFirstName("Ivan");
-        user.setLastName("Ivan");
-        user.setEmail("ivan@tut.by");
-        user.setRole("ADMIN");
+        user.setUsername(signUpRequest.getUsername());
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
+        user.setEmail(signUpRequest.getEmail());
+        user.setRole(signUpRequest.getRole());
+        user.setCreatedData(LocalDateTime.now());
         userRedisService.add(user);
-
-//        userRedisService.findAll();
 
 //        todo token to email
         return new ResponseEntity(HttpStatus.OK);
@@ -74,11 +75,13 @@ public class GuestController {
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public ResponseEntity<SignUpForm> getCurrency(@RequestParam String token) {
+    public ResponseEntity<String> getCurrency(@RequestParam String token) {
         logger.info(" send Token to mail => " + token);
-        //todo find by token in redis
-        SignUpForm signUpRequest = null;
-//        return new ResponseEntity<>(signUpRequest, HttpStatus.OK);
+        UserRedisDTO userRedisDTO = userRedisService.getUserById(token);
+        LocalDateTime createdData = userRedisDTO.getCreatedData();
+        if (!DateValidation.isDateValidForCreateUser(createdData)) {
+            return new ResponseEntity<>("Registration timeout exceeded !!!", HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -88,17 +91,30 @@ public class GuestController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity saveCurrency(@RequestParam String token, @RequestBody @Valid ConfirmForm confirmForm) {
         if (!confirmForm.getPassword().equals(confirmForm.getRepeaPpassword())) {
-            return new ResponseEntity<String>("Fail -> Password does not match!",
+            return new ResponseEntity<>("Fail -> Password does not match!",
                     HttpStatus.BAD_REQUEST);
         }
-        //todo find by token in redis
+        UserRedisDTO userRedisDTO = userRedisService.getUserById(token);
+
+        if (userService.existsByUsername(userRedisDTO.getUsername())) {
+            return new ResponseEntity<>("Fail -> Username is already taken!",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (userService.existsByEmail(userRedisDTO.getEmail())) {
+            return new ResponseEntity<>("Fail -> Email is already in use!",
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        //todo validation name+role
         UserDTO userDTO = new UserDTO();
-        userDTO.setUsername("ivan");
-        userDTO.setFirstName("Ivan");
-        userDTO.setLastName("Ivan");
-        userDTO.setEmail("ivan@tut.by");
-        userDTO.setPassword("123456789");
-        userDTO.setRole("ADMIN");
+        userDTO.setUsername(userRedisDTO.getUsername());
+        userDTO.setFirstName(userRedisDTO.getFirstName());
+        userDTO.setLastName(userRedisDTO.getLastName());
+        userDTO.setEmail(userRedisDTO.getEmail());
+        userDTO.setPassword(confirmForm.getPassword());
+        userDTO.setCreatedData(LocalDate.now());
+        userDTO.setRole(userRedisDTO.getRole().toUpperCase());
         userService.add(userDTO);
         logger.info(" save user with  => " + userDTO);
         return new ResponseEntity(HttpStatus.OK);

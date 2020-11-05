@@ -13,7 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -30,7 +30,7 @@ public class Comment {
     private String message;
 
     @Column(name = "createdate")
-    private Date createdDate;
+    private LocalDate createdDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

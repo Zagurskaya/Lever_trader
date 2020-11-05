@@ -13,7 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -50,7 +50,7 @@ public class User {
     private String email;
 
     @Column(name = "createdata")
-    private Date createdData;
+    private LocalDate createdData;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
