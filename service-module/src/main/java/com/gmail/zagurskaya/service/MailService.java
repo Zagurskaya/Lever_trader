@@ -2,5 +2,5 @@ package com.gmail.zagurskaya.service;
 
 public interface MailService {
 
-    void sendMessage(String email, String message);
+    void sendLinkToMail(String email, String link);
 }

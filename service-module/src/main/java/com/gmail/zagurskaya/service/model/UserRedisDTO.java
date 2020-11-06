@@ -5,10 +5,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,8 +26,6 @@ public class UserRedisDTO implements Serializable {
     @NotBlank
     @Size(min = 3, max = 50)
     private String email;
-    @NotNull
-    private LocalDateTime createdData;
     @NotBlank
     @Size(min = 3, max = 50)
     private String role;

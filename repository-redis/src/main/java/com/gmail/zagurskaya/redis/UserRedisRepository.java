@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRedisRepository extends CrudRepository<UserRedis, String> {
 
-//    Optional<UserRedis> findById(String id);
 }

@@ -17,7 +17,6 @@ public class UserRedisConverterImpl implements UserRedisConverter {
         userRedisDTO.setLastName(userRedis.getLastName());
         userRedisDTO.setRole(userRedis.getRole());
         userRedisDTO.setEmail(userRedis.getEmail());
-        userRedisDTO.setCreatedData(userRedis.getCreatedData().atTime(00, 00, 00));
         return userRedisDTO;
     }
 
@@ -30,7 +29,6 @@ public class UserRedisConverterImpl implements UserRedisConverter {
         userRedis.setLastName(userRedisDTO.getLastName());
         userRedis.setRole(userRedisDTO.getRole());
         userRedis.setEmail(userRedisDTO.getEmail());
-        userRedis.setCreatedData(userRedisDTO.getCreatedData().toLocalDate());
         return userRedis;
     }
 }

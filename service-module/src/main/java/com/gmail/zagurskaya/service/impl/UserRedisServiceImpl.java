@@ -12,6 +12,8 @@ import javax.persistence.EntityNotFoundException;
 
 @Service
 public class UserRedisServiceImpl implements UserRedisService {
+//    private static final Long TIME_LIVE = 86400L;
+    private static final Long TIME_LIVE = 30L;
 
     private final UserRedisConverter userRedisConverter;
     private final UserRedisRepository userRedisRepository;
@@ -26,12 +28,13 @@ public class UserRedisServiceImpl implements UserRedisService {
     @Override
     public void add(UserRedisDTO userRedisDTO) {
         UserRedis userRedis = userRedisConverter.toEntity(userRedisDTO);
+        userRedis.setTimeToLive(TIME_LIVE);
         userRedisRepository.save(userRedis);
     }
 
     @Override
     public UserRedisDTO getUserById(String id) {
-        UserRedis loaded = userRedisRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("UserRedis not found with id" + id));
-        return userRedisConverter.toDTO(loaded);
+        UserRedis user = userRedisRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User from Redis not found with id " + id));
+        return userRedisConverter.toDTO(user);
     }
 }

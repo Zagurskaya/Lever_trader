@@ -1,12 +1,12 @@
 package com.gmail.zagurskaya.web.controller;
 
+import com.gmail.zagurskaya.service.MailService;
 import com.gmail.zagurskaya.service.UserRedisService;
 import com.gmail.zagurskaya.service.UserService;
 import com.gmail.zagurskaya.service.model.UserDTO;
 import com.gmail.zagurskaya.service.model.UserRedisDTO;
 import com.gmail.zagurskaya.web.request.ConfirmForm;
 import com.gmail.zagurskaya.web.request.SignUpForm;
-import com.gmail.zagurskaya.web.validation.DateValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -34,12 +33,14 @@ public class GuestController {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final UserRedisService userRedisService;
+    private final MailService mailService;
 
     @Autowired
-    public GuestController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService) {
+    public GuestController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService, MailService mailService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.userRedisService = userRedisService;
+        this.mailService = mailService;
     }
 
     @PostMapping("/signup")
@@ -55,6 +56,7 @@ public class GuestController {
         }
         String token = passwordEncoder.encode(signUpRequest.getUsername());
         logger.info("Token => " + token);
+        //todo validation userDate
 
         UserRedisDTO user = new UserRedisDTO();
         user.setId(token);
@@ -63,10 +65,10 @@ public class GuestController {
         user.setLastName(signUpRequest.getLastName());
         user.setEmail(signUpRequest.getEmail());
         user.setRole(signUpRequest.getRole());
-        user.setCreatedData(LocalDateTime.now());
         userRedisService.add(user);
 
-//        todo token to email
+//        mailService.sendLinkToMail(signUpRequest.getEmail(),token);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -78,11 +80,7 @@ public class GuestController {
     public ResponseEntity<String> getCurrency(@RequestParam String token) {
         logger.info(" send Token to mail => " + token);
         UserRedisDTO userRedisDTO = userRedisService.getUserById(token);
-        LocalDateTime createdData = userRedisDTO.getCreatedData();
-        if (!DateValidation.isDateValidForCreateUser(createdData)) {
-            return new ResponseEntity<>("Registration timeout exceeded !!!", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("created user : " + userRedisDTO.getUsername(), HttpStatus.OK);
     }
 
 
