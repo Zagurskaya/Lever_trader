@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_ADMIN;
-import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_NEW_USERS;
-import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_NEW_USERS_POST;
-import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_Comment;
-import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_Comment_REDIRECT;
-import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_USERS;
+//import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_ADMIN;
+//import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_NEW_USERS;
+//import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_NEW_USERS_POST;
+//import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_Comment;
+//import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_Comment_REDIRECT;
+//import static com.gmail.zagurskaya.web.constant.URLConstant.PATH_ADMINISTRATOR_USERS;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_ADMIN;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_ADMINISTRATOR_EXIT;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_ADMINISTRATOR_NEW_USERS;
@@ -54,29 +54,29 @@ public class AdministratorController {
 //        return PATH_ADMINISTRATOR_ADMIN;
 //    }
 
-    @GetMapping(URL_ADMINISTRATOR_NEW_USERS)
-    public String getAddUserInAdminPage() {
-
-        return PATH_ADMINISTRATOR_NEW_USERS;
-    }
-
-    @GetMapping(URL_ADMINISTRATOR_Comment)
-    public String getCommentInAdminPage(Model model) {
-        List<CommentDTO> Comment = CommentService.getComment();
-        List<UserDTO> users = userService.getUsers();
-        model.addAttribute("users", users);
-        model.addAttribute("Comment", Comment);
-        return PATH_ADMINISTRATOR_Comment;
-    }
-
-    @PostMapping(URL_ADMINISTRATOR_Comment_DELETE)
-    public String postDeleteCommentInAdminPage(
-            @RequestParam("ids") List<Long> ids,
-            Model model
-    ) {
-        CommentService.deleteCommentList(ids);
-        return PATH_ADMINISTRATOR_Comment_REDIRECT;
-    }
+//    @GetMapping(URL_ADMINISTRATOR_NEW_USERS)
+//    public String getAddUserInAdminPage() {
+//
+//        return PATH_ADMINISTRATOR_NEW_USERS;
+//    }
+//
+//    @GetMapping(URL_ADMINISTRATOR_Comment)
+//    public String getCommentInAdminPage(Model model) {
+//        List<CommentDTO> Comment = CommentService.getComment();
+//        List<UserDTO> users = userService.getUsers();
+//        model.addAttribute("users", users);
+//        model.addAttribute("Comment", Comment);
+//        return PATH_ADMINISTRATOR_Comment;
+//    }
+//
+//    @PostMapping(URL_ADMINISTRATOR_Comment_DELETE)
+//    public String postDeleteCommentInAdminPage(
+//            @RequestParam("ids") List<Long> ids,
+//            Model model
+//    ) {
+//        CommentService.deleteCommentList(ids);
+//        return PATH_ADMINISTRATOR_Comment_REDIRECT;
+//    }
 
     @GetMapping(URL_ADMINISTRATOR_EXIT)
     public String getExitPage() {

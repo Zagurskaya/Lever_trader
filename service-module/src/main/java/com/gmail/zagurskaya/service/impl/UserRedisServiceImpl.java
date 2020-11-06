@@ -12,8 +12,7 @@ import javax.persistence.EntityNotFoundException;
 
 @Service
 public class UserRedisServiceImpl implements UserRedisService {
-//    private static final Long TIME_LIVE = 86400L;
-    private static final Long TIME_LIVE = 30L;
+    private static final Long TIME_LIVE = 86400L;
 
     private final UserRedisConverter userRedisConverter;
     private final UserRedisRepository userRedisRepository;
