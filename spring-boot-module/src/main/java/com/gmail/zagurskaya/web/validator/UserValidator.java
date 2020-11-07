@@ -10,8 +10,8 @@ public class UserValidator implements Validator {
 
     private static final String EMAIL_VALIDATION_REGEX =
             "^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$";
-    private static final String INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX = "^[A-Za-z0-9]+$";
-    private static final String INITIALS_SYMBOLS_VALIDATION_REGEX = "^[A-Za-z]+$";
+    private static final String INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX = "[A-Za-z0-9]{1,}";
+    private static final String INITIALS_SYMBOLS_VALIDATION_REGEX = "[A-Za-z]{1,}";
 
     @Override
     public boolean supports(Class<?> clazz) {

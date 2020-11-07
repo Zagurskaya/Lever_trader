@@ -31,6 +31,11 @@ public class URLConstant {
     public static final String URL_AUTH_CONFIRM = "/confirm";
     public static final String URL_AUTH_FORGOT_PASSWORD = "/forgot_password";
 
+    public static final String API_TRADER = "/api/traders";
+    public static final String API_TRADER_ID = "/{id}";
+    public static final String API_TRADER_COMMENTS = "/{id}/comments";
+
+
 
 
 

@@ -40,6 +40,9 @@ public class Comment {
     @JoinColumn(name = "trader_id", nullable = false)
     private Trader trader;
 
+    @Column(name = "mark")
+    private Long mark;
+
     @Column(name = "approved")
     private Boolean approved;
 }

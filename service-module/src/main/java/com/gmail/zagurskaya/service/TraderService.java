@@ -1,5 +1,6 @@
 package com.gmail.zagurskaya.service;
 
+import com.gmail.zagurskaya.service.model.CommentDTO;
 import com.gmail.zagurskaya.service.model.TraderDTO;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface TraderService {
 
     void delete(Long id);
 
-    void update(TraderDTO trader);
-
     TraderDTO getTraderById(Long id);
+
+    List<CommentDTO> getCommentsByTraderId(Long traderId);
 }

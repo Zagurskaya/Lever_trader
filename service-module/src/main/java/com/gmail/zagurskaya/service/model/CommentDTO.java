@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,9 +25,12 @@ public class CommentDTO {
     @NotNull
     private TraderDTO trader;
     @NotNull
-    private Long roleId;
+    private Long userId;
     @NotNull
     private Long traderId;
+    @NotNull
+    @Size(min = 1, max = 10)
+    private Long mark;
     @NotNull
     private Boolean approved;
 }
