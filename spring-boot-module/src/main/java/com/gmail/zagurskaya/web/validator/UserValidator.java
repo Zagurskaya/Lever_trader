@@ -21,24 +21,11 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         UserDTO userDTO = (UserDTO) o;
-
-        if (userDTO.getEmail() != null && !userDTO.getEmail().toLowerCase().matches(EMAIL_VALIDATION_REGEX)) {
-            errors.rejectValue("email", "Invalid email form");
-        }
-        if (userDTO.getUsername() != null && !userDTO.getUsername().matches(INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX)) {
-            errors.rejectValue("username", "Invalid username form");
-        }
-        if (userDTO.getFirstName() != null && !userDTO.getFirstName().matches(INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX)) {
-            errors.rejectValue("firstName", "Invalid FirstName form");
-        }
-        if (userDTO.getLastName() != null && !userDTO.getLastName().matches(INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX)) {
-            errors.rejectValue("lastName", "Invalid lastName form");
-        }
-        if (userDTO.getRole() != null && !userDTO.getRole().matches(INITIALS_SYMBOLS_VALIDATION_REGEX)) {
-            errors.rejectValue("role", "Invalid role form");
-        }
-        if (userDTO.getPassword() != null && !userDTO.getPassword().matches(INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX)) {
-            errors.rejectValue("password", "Invalid password form");
-        }
+        DateValidator.fieldValidate(userDTO.getEmail().toLowerCase(), "email", EMAIL_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userDTO.getUsername(), "username", INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userDTO.getFirstName(), "firstName", INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userDTO.getLastName(), "lastName", INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userDTO.getRole(), "role", INITIALS_SYMBOLS_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userDTO.getPassword(), "password", INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX, errors);
     }
 }

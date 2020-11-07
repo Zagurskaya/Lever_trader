@@ -1,13 +1,18 @@
 package com.gmail.zagurskaya.web.controller;
 
+import com.gmail.zagurskaya.service.CodeRedisService;
 import com.gmail.zagurskaya.service.MailService;
 import com.gmail.zagurskaya.service.UserRedisService;
 import com.gmail.zagurskaya.service.UserService;
+import com.gmail.zagurskaya.service.model.CodeRedisDTO;
 import com.gmail.zagurskaya.service.model.UserDTO;
 import com.gmail.zagurskaya.service.model.UserRedisDTO;
+import com.gmail.zagurskaya.service.util.UserUtil;
 import com.gmail.zagurskaya.web.request.ConfirmForm;
 import com.gmail.zagurskaya.web.request.SignUpForm;
+import com.gmail.zagurskaya.web.util.DateUtil;
 import com.gmail.zagurskaya.web.util.MessageUtil;
+import com.gmail.zagurskaya.web.validator.DateValidator;
 import com.gmail.zagurskaya.web.validator.UserRedisValidator;
 import com.gmail.zagurskaya.web.validator.UserValidator;
 import org.slf4j.Logger;
@@ -27,9 +32,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.util.Map;
 
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_CONFIRM;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_FORGOT_PASSWORD;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_SIGN_UP;
 
 @RestController
@@ -39,20 +46,25 @@ public class AuthorizationController {
     private static final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
 
     private final UserService userService;
+    private final MailService mailService;
     private final PasswordEncoder passwordEncoder;
     private final UserRedisService userRedisService;
-    private final MailService mailService;
+    private final CodeRedisService codeRedisService;
     private final UserValidator userValidator;
     private final UserRedisValidator userRedisValidator;
+    private final UserUtil userUtil;
+
 
     @Autowired
-    public AuthorizationController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService, MailService mailService, UserValidator userValidator, UserRedisValidator userRedisValidator) {
+    public AuthorizationController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService, MailService mailService, CodeRedisService codeRedisService, UserValidator userValidator, UserRedisValidator userRedisValidator, UserUtil userUtil) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.userRedisService = userRedisService;
         this.mailService = mailService;
+        this.codeRedisService = codeRedisService;
         this.userValidator = userValidator;
         this.userRedisValidator = userRedisValidator;
+        this.userUtil = userUtil;
     }
 
     @PostMapping(URL_AUTH_SIGN_UP)
@@ -103,7 +115,7 @@ public class AuthorizationController {
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity saveUser(@RequestParam String token, @RequestBody @Valid ConfirmForm confirmForm, BindingResult result) {
-        if (!confirmForm.getPassword().equals(confirmForm.getRepeaPpassword())) {
+        if (!confirmForm.getPassword().equals(confirmForm.getRepeatPassword())) {
             return new ResponseEntity<>("Fail -> Password does not match!",
                     HttpStatus.BAD_REQUEST);
         }
@@ -134,6 +146,25 @@ public class AuthorizationController {
         }
         userService.add(userDTO);
         logger.info(" save user with  => " + userDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping(URL_AUTH_FORGOT_PASSWORD)
+    public ResponseEntity sendCodeForForgotPasswordToEmail(@RequestBody Map<String,String> request) {
+        String email = request.get("email");
+        if (!DateValidator.isEmailValid(email)) {
+            return new ResponseEntity<>("Invalid email form", HttpStatus.BAD_REQUEST);
+        }
+        String activationСode = DateUtil.randomCode(5);
+        logger.info(" code  => " + activationСode);
+
+        CodeRedisDTO codeRedisDTO = new CodeRedisDTO();
+        codeRedisDTO.setId(email);
+        codeRedisDTO.setValue(activationСode);
+
+        codeRedisService.add(codeRedisDTO);
+//        mailService.sendCodeToMail(email, activationСode);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 }

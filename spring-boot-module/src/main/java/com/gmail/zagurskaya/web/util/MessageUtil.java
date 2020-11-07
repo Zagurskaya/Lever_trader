@@ -4,6 +4,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 public class MessageUtil {
+
     public static String getValidationErrorMessage(BindingResult bindingResult) {
         StringBuilder sb = new StringBuilder();
         sb.append(bindingResult.getErrorCount()).append(" error(s): ");

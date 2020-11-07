@@ -7,6 +7,8 @@ import com.gmail.zagurskaya.repository.model.User;
 import com.gmail.zagurskaya.service.UserService;
 import com.gmail.zagurskaya.service.converter.UserConverter;
 import com.gmail.zagurskaya.service.model.UserDTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,7 @@ import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private static final Logger logger = LogManager.getLogger(UserServiceImpl.class);
 
     private final UserConverter userConverter;
     private final UserRepository userRepository;
@@ -96,6 +99,5 @@ public class UserServiceImpl implements UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
-
 
 }

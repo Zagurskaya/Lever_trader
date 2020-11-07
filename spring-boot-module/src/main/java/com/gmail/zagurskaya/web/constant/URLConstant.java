@@ -29,6 +29,7 @@ public class URLConstant {
     public static final String URL_AUTH = "/api/auth";
     public static final String URL_AUTH_SIGN_UP = "/signup";
     public static final String URL_AUTH_CONFIRM = "/confirm";
+    public static final String URL_AUTH_FORGOT_PASSWORD = "/forgot_password";
 
 
 

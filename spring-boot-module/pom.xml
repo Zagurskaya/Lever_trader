@@ -19,6 +19,7 @@
         <bootstrap.version>3.3.7</bootstrap.version>
         <jquery.version>3.1.1</jquery.version>
         <slf4j-api.version>1.7.26</slf4j-api.version>
+        <lombok.version>1.18.10</lombok.version>
     </properties>
 
     <dependencies>
@@ -115,6 +116,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

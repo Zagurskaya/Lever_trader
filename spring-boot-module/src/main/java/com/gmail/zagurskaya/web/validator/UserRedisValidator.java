@@ -23,21 +23,10 @@ public class UserRedisValidator implements Validator {
     public void validate(Object o, Errors errors) {
         UserRedisDTO userRedisDTO = (UserRedisDTO) o;
 
-        if (userRedisDTO.getEmail() != null && !userRedisDTO.getEmail().toLowerCase().matches(EMAIL_VALIDATION_REGEX)) {
-            errors.rejectValue("email", "Invalid email form");
-        }
-        if (userRedisDTO.getUsername() != null && !userRedisDTO.getUsername().matches(INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX)) {
-            errors.rejectValue("username", "Invalid username form");
-        }
-        if (userRedisDTO.getFirstName() != null && !userRedisDTO.getFirstName().matches(INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX)) {
-            errors.rejectValue("firstName", "Invalid FirstName form");
-        }
-        if (userRedisDTO.getLastName() != null && !userRedisDTO.getLastName().matches(INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX)) {
-            errors.rejectValue("lastName", "Invalid lastName form");
-        }
-        if (userRedisDTO.getRole() != null && !userRedisDTO.getRole().matches(INITIALS_SYMBOLS_VALIDATION_REGEX)) {
-            errors.rejectValue("role", "Invalid role form");
-        }
-
+        DateValidator.fieldValidate(userRedisDTO.getEmail().toLowerCase(), "email", EMAIL_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userRedisDTO.getUsername(), "username", INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userRedisDTO.getFirstName(), "firstName", INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userRedisDTO.getLastName(), "lastName", INITIALS_SYMBOLS_AND_NUMBER_VALIDATION_REGEX, errors);
+        DateValidator.fieldValidate(userRedisDTO.getRole(), "role", INITIALS_SYMBOLS_VALIDATION_REGEX, errors);
     }
 }

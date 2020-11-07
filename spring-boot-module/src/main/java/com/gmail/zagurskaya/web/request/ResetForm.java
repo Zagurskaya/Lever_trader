@@ -10,12 +10,12 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @ToString
-public class ConfirmForm {
+public class ResetForm {
     @NotBlank
-    @Size(min = 6, max = 50)
-    private String password;
+    @Size(min = 3, max = 10)
+    private String code;
 
     @NotBlank
     @Size(min = 6, max = 50)
-    private String repeatPassword;
+    private String newPassword;
 }
