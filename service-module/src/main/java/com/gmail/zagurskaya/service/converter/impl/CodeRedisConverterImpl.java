@@ -12,7 +12,7 @@ public class CodeRedisConverterImpl implements CodeRedisConverter {
     public CodeRedisDTO toDTO(CodeRedis codeRedis) {
         CodeRedisDTO codeRedisDTO = new CodeRedisDTO();
         codeRedisDTO.setId(codeRedis.getId());
-        codeRedisDTO.setValue(codeRedis.getValue());
+        codeRedisDTO.setMail(codeRedis.getValue());
         return codeRedisDTO;
     }
 
@@ -20,7 +20,7 @@ public class CodeRedisConverterImpl implements CodeRedisConverter {
     public CodeRedis toEntity(CodeRedisDTO codeRedisDTO) {
         CodeRedis codeRedis = new CodeRedis();
         codeRedis.setId(codeRedisDTO.getId());
-        codeRedis.setValue(codeRedisDTO.getValue());
+        codeRedis.setValue(codeRedisDTO.getMail());
         return codeRedis;
     }
 }

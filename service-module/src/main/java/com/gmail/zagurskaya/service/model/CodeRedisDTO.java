@@ -16,6 +16,6 @@ public class CodeRedisDTO implements Serializable {
     private String id;
     @NotBlank
     @Size(min = 3, max = 10)
-    private String value;
+    private String mail;
 
 }

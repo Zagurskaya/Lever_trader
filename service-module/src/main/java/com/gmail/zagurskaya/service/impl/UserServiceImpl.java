@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,6 +97,14 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void changePassword(String mail, String newPassword) {
+        User user = userRepository.findByEmail(mail).orElseThrow(() -> new EntityNotFoundException("User not found with email" + mail));
+        String password = passwordEncoder.encode(newPassword);
+        user.setPassword(password);
+        userRepository.save(user);
     }
 
 }

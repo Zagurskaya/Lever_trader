@@ -9,10 +9,12 @@ import com.gmail.zagurskaya.service.model.UserDTO;
 import com.gmail.zagurskaya.service.model.UserRedisDTO;
 import com.gmail.zagurskaya.service.util.UserUtil;
 import com.gmail.zagurskaya.web.request.ConfirmForm;
+import com.gmail.zagurskaya.web.request.ResetForm;
 import com.gmail.zagurskaya.web.request.SignUpForm;
 import com.gmail.zagurskaya.web.util.DateUtil;
 import com.gmail.zagurskaya.web.util.MessageUtil;
 import com.gmail.zagurskaya.web.validator.DateValidator;
+import com.gmail.zagurskaya.web.validator.ResetFormValidator;
 import com.gmail.zagurskaya.web.validator.UserRedisValidator;
 import com.gmail.zagurskaya.web.validator.UserValidator;
 import org.slf4j.Logger;
@@ -35,8 +37,10 @@ import java.time.LocalDate;
 import java.util.Map;
 
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_CHECK_CODE;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_CONFIRM;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_FORGOT_PASSWORD;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_RESET;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_SIGN_UP;
 
 @RestController
@@ -52,11 +56,12 @@ public class AuthorizationController {
     private final CodeRedisService codeRedisService;
     private final UserValidator userValidator;
     private final UserRedisValidator userRedisValidator;
+    private final ResetFormValidator resetFormValidator;
     private final UserUtil userUtil;
 
 
     @Autowired
-    public AuthorizationController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService, MailService mailService, CodeRedisService codeRedisService, UserValidator userValidator, UserRedisValidator userRedisValidator, UserUtil userUtil) {
+    public AuthorizationController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService, MailService mailService, CodeRedisService codeRedisService, UserValidator userValidator, UserRedisValidator userRedisValidator, ResetFormValidator resetFormValidator, UserUtil userUtil) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.userRedisService = userRedisService;
@@ -64,6 +69,7 @@ public class AuthorizationController {
         this.codeRedisService = codeRedisService;
         this.userValidator = userValidator;
         this.userRedisValidator = userRedisValidator;
+        this.resetFormValidator = resetFormValidator;
         this.userUtil = userUtil;
     }
 
@@ -150,7 +156,7 @@ public class AuthorizationController {
     }
 
     @PostMapping(URL_AUTH_FORGOT_PASSWORD)
-    public ResponseEntity sendCodeForForgotPasswordToEmail(@RequestBody Map<String,String> request) {
+    public ResponseEntity sendCodeForForgotPasswordToEmail(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         if (!DateValidator.isEmailValid(email)) {
             return new ResponseEntity<>("Invalid email form", HttpStatus.BAD_REQUEST);
@@ -159,12 +165,38 @@ public class AuthorizationController {
         logger.info(" code  => " + activationСode);
 
         CodeRedisDTO codeRedisDTO = new CodeRedisDTO();
-        codeRedisDTO.setId(email);
-        codeRedisDTO.setValue(activationСode);
+        codeRedisDTO.setId(activationСode);
+        codeRedisDTO.setMail(email);
 
         codeRedisService.add(codeRedisDTO);
 //        mailService.sendCodeToMail(email, activationСode);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(
+            value = URL_AUTH_CHECK_CODE,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public ResponseEntity<String> checkCode(@RequestBody Map<String, String> request) {
+        String code = request.get("code");
+        String email = codeRedisService.getCodeById(code).getMail();
+        logger.info(" for code => " + code + "exists email : " + email);
+        return new ResponseEntity<>(" the code " + code + " is actual", HttpStatus.OK);
+    }
+
+    @PostMapping(URL_AUTH_RESET)
+    public ResponseEntity changePassword(@RequestBody @Valid ResetForm resetForm, BindingResult result) {
+        resetFormValidator.validate(resetForm, result);
+        CodeRedisDTO codeRedisDTO = codeRedisService.getCodeById(resetForm.getCode());
+
+        if (userService.existsByEmail(codeRedisDTO.getMail())) {
+            userService.changePassword(codeRedisDTO.getMail(), resetForm.getNewPassword());
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fail -> Email does not exist!",
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 }

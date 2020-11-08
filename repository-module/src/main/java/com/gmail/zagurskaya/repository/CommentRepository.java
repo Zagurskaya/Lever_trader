@@ -15,7 +15,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     @Query(
             value = "SELECT round(AVG(`mark`),2) as rating FROM `comment` WHERE `comment`.`trader_id` = ?1",
-//            value = "SELECT round(AVG(c.mark),2) FROM Comment c WHERE c.trader.id = ?1",
+//            mail = "SELECT round(AVG(c.mark),2) FROM Comment c WHERE c.trader.id = ?1",
             nativeQuery = true)
     Optional<Double> findRatingByTraderId(Long id);
 }

@@ -22,4 +22,6 @@ public interface UserService {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
+    void changePassword(String mail, String newPassword);
 }
