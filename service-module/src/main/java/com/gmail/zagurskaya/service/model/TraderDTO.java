@@ -17,4 +17,6 @@ public class TraderDTO {
     @NotNull
     @Size(max = 50)
     private String name;
+
+    private Double rating;
 }
