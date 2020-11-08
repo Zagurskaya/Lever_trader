@@ -67,4 +67,12 @@ public class TraderServiceImpl implements TraderService {
         return traderDTO;
     }
 
+    @Override
+    public List<TraderDTO> findTopRatingTraders(int topLimit) {
+        List<Trader> traders = traderRepository.findTopRatingTraders(topLimit);
+        List<TraderDTO> dtos = traders.stream()
+                .map(traderConverter::toDTO)
+                .collect(Collectors.toList());
+        return dtos;
+    }
 }

@@ -20,12 +20,14 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADER;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADERS_TOP;
 import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADER_COMMENTS;
 import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADER_ID;
 
 @RestController
 @RequestMapping(API_TRADER)
 public class TraderController {
+    private static final int TOP_LIMIT = 5;
 
     private final TraderService traderService;
     private final CommentService commentService;
@@ -42,6 +44,16 @@ public class TraderController {
     )
     public ResponseEntity<List<TraderDTO>> getTraders() {
         List<TraderDTO> traderDTOList = traderService.getTraders();
+        return new ResponseEntity<>(traderDTOList, HttpStatus.OK);
+    }
+
+    @GetMapping(
+            value = API_TRADERS_TOP,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public ResponseEntity<List<TraderDTO>> getTopTraders() {
+        List<TraderDTO> traderDTOList = traderService.findTopRatingTraders(TOP_LIMIT);
         return new ResponseEntity<>(traderDTOList, HttpStatus.OK);
     }
 
