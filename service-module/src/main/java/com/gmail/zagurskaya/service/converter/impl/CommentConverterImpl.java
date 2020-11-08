@@ -8,7 +8,6 @@ import com.gmail.zagurskaya.service.converter.TraderConverter;
 import com.gmail.zagurskaya.service.converter.UserConverter;
 import com.gmail.zagurskaya.service.model.CommentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
