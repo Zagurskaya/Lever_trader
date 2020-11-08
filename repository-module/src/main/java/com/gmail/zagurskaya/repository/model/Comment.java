@@ -43,6 +43,6 @@ public class Comment {
     @Column(name = "mark")
     private Long mark;
 
-    @Column(name = "approved")
+    @Column(name = "approved", columnDefinition = "boolean default false")
     private Boolean approved;
 }

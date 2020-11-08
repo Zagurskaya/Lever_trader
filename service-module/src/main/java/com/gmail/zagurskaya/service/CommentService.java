@@ -6,9 +6,8 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<CommentDTO> getComment();
+    List<CommentDTO> getCommentsByTraderId(Long traderId);
 
-    void delete(Long id);
+    void add(CommentDTO commentDTO);
 
-    void deleteCommentList(List<Long> ids);
 }

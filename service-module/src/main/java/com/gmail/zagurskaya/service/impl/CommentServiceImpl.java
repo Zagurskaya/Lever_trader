@@ -5,51 +5,49 @@ import com.gmail.zagurskaya.repository.model.Comment;
 import com.gmail.zagurskaya.service.CommentService;
 import com.gmail.zagurskaya.service.converter.CommentConverter;
 import com.gmail.zagurskaya.service.model.CommentDTO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.gmail.zagurskaya.service.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class CommentServiceImpl implements CommentService {
-    private static final Logger logger = LogManager.getLogger(CommentServiceImpl.class);
+    private static final Long GUEST_ID = 2L;
 
-//    private final CommentConverter CommentConverter;
-//    private final CommentRepository CommentRepository;
-//
-//    @Autowired
-//    public CommentServiceImpl(CommentConverter CommentConverter, CommentRepository CommentRepository) {
-//        this.CommentConverter = CommentConverter;
-//        this.CommentRepository = CommentRepository;
-//    }
+    private final CommentConverter commentConverter;
+    private final CommentRepository commentRepository;
+    private final UserUtil userUtil;
+
+
+    @Autowired
+    public CommentServiceImpl(CommentConverter commentConverter, CommentRepository commentRepository, UserUtil userUtil) {
+        this.commentConverter = commentConverter;
+        this.commentRepository = commentRepository;
+        this.userUtil = userUtil;
+    }
 
     @Override
-    @Transactional
-    public List<CommentDTO> getComment() {
-//        List<Comment> Comments = CommentRepository.findAll();
-//        List<CommentDTO> CommentsDTO = Comments.stream()
-//                .map(CommentConverter::toDTO)
-//                .collect(Collectors.toList());
-//        return CommentsDTO;
-        return null;
+    @Transactional(readOnly = true)
+    public List<CommentDTO> getCommentsByTraderId(Long traderId) {
+        List<Comment> commentList = commentRepository.findAllByTraderIdAndApproved(traderId, true);
+        return commentList.stream()
+                .map(commentConverter::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void add(CommentDTO commentDTO) {
+        Long userId = userUtil.getActualUserId();
+        commentDTO.setUserId(userId != 0 ? userId : GUEST_ID);
+        Comment comment = commentConverter.toEntity(commentDTO);
 
-//        CommentRepository.remove(CommentRepository.findById(id));
-    }
-
-    @Override
-    public void deleteCommentList(List<Long> ids) {
-        ids.stream().forEach(id -> {
-            delete(id);
-            logger.info("deleted comment with id = " + id);
-        });
+        comment.setCreatedDate(LocalDate.now());
+        commentRepository.save(comment);
     }
 }

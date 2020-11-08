@@ -1,10 +1,10 @@
 package com.gmail.zagurskaya.web.controller;
 
+import com.gmail.zagurskaya.service.CommentService;
 import com.gmail.zagurskaya.service.TraderService;
 import com.gmail.zagurskaya.service.model.CommentDTO;
 import com.gmail.zagurskaya.service.model.TraderDTO;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.gmail.zagurskaya.web.validator.DateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,13 +26,14 @@ import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADER_ID;
 @RestController
 @RequestMapping(API_TRADER)
 public class TraderController {
-    private static final Logger logger = LogManager.getLogger(TraderController.class);
-    private static final Long GUEST_ID = 2L;
+
     private final TraderService traderService;
+    private final CommentService commentService;
 
     @Autowired
-    public TraderController(TraderService traderService) {
+    public TraderController(TraderService traderService, CommentService commentService) {
         this.traderService = traderService;
+        this.commentService = commentService;
     }
 
     @GetMapping(
@@ -69,7 +70,21 @@ public class TraderController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
     public ResponseEntity<List<CommentDTO>> getCommentsByTraderId(@PathVariable("id") Long id) {
-        List<CommentDTO> commentDTOList = traderService.getCommentsByTraderId(id);
+        List<CommentDTO> commentDTOList = commentService.getCommentsByTraderId(id);
         return new ResponseEntity<>(commentDTOList, HttpStatus.OK);
+    }
+
+    @PostMapping(
+            value = API_TRADER_COMMENTS,
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+    )
+    public ResponseEntity<String> saveTraderComment(@PathVariable("id") Long id, @RequestBody @Valid CommentDTO commentDTO) {
+        if (!DateValidator.isMarkValid(commentDTO.getMark())) {
+            return new ResponseEntity<>("Invalid mark form", HttpStatus.BAD_REQUEST);
+        }
+        commentDTO.setTraderId(id);
+        commentService.add(commentDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

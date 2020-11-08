@@ -1,7 +1,6 @@
 package com.gmail.zagurskaya.service.impl;
 
 import com.gmail.zagurskaya.redis.UserRedisRepository;
-import com.gmail.zagurskaya.redis.model.UserRedis;
 import com.gmail.zagurskaya.repository.UserRepository;
 import com.gmail.zagurskaya.repository.model.User;
 import com.gmail.zagurskaya.service.UserService;
@@ -15,10 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.HashMap;
+import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -72,6 +70,13 @@ public class UserServiceImpl implements UserService {
         User loaded = userRepository.findByUsername(name).orElseThrow(() -> new UsernameNotFoundException("User not found with userName" + name));
         return userConverter.toDTO(loaded);
     }
+
+    @Override
+    public Long findUserIdByUsername(String name) {
+        Optional<User> user = userRepository.findByUsername(name);
+        return user.isPresent() ? user.get().getId() : 0L;
+    }
+
 
 //    @Override
 //    @Transactional(readOnly = true)

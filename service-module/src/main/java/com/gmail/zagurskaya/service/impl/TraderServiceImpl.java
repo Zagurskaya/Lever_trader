@@ -1,13 +1,9 @@
 package com.gmail.zagurskaya.service.impl;
 
-import com.gmail.zagurskaya.repository.CommentRepository;
 import com.gmail.zagurskaya.repository.TraderRepository;
-import com.gmail.zagurskaya.repository.model.Comment;
 import com.gmail.zagurskaya.repository.model.Trader;
 import com.gmail.zagurskaya.service.TraderService;
-import com.gmail.zagurskaya.service.converter.CommentConverter;
 import com.gmail.zagurskaya.service.converter.TraderConverter;
-import com.gmail.zagurskaya.service.model.CommentDTO;
 import com.gmail.zagurskaya.service.model.TraderDTO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,15 +23,11 @@ public class TraderServiceImpl implements TraderService {
 
     private final TraderConverter traderConverter;
     private final TraderRepository traderRepository;
-    private final CommentConverter commentConverter;
-    private final CommentRepository commentRepository;
 
     @Autowired
-    public TraderServiceImpl(TraderConverter traderConverter, TraderRepository traderRepository, CommentConverter commentConverter, CommentRepository commentRepository) {
+    public TraderServiceImpl(TraderConverter traderConverter, TraderRepository traderRepository) {
         this.traderConverter = traderConverter;
         this.traderRepository = traderRepository;
-        this.commentConverter = commentConverter;
-        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -67,16 +59,6 @@ public class TraderServiceImpl implements TraderService {
     public TraderDTO getTraderById(Long id) {
         Trader loaded = traderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Trader not found with id " + id));
         return traderConverter.toDTO(loaded);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<CommentDTO> getCommentsByTraderId(Long traderId) {
-        List<Comment> commentList = commentRepository.findAllByTraderIdAndApproved(traderId, true);
-        List<CommentDTO> dtos = commentList.stream()
-                .map(commentConverter::toDTO)
-                .collect(Collectors.toList());
-        return dtos;
     }
 
 }

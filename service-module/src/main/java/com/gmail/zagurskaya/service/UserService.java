@@ -14,6 +14,9 @@ public interface UserService {
 
     UserDTO loadUserByUsername(String name);
 
+    Long findUserIdByUsername(String name);
+
+
 //    UserDTO getUserById(Long id);
 
     boolean existsByUsername(String username);

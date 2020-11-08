@@ -11,16 +11,21 @@ import org.springframework.stereotype.Service;
 public class UserUtil {
     private final UserService userService;
 
-@Autowired
+    @Autowired
     public UserUtil(UserService userService) {
         this.userService = userService;
     }
 
-
-    public UserDTO getActualUser(){
+    public UserDTO getActualUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String name = authentication.getName();
         UserDTO user = userService.loadUserByUsername(name);
         return user;
+    }
+
+    public Long getActualUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        return userService.findUserIdByUsername(name);
     }
 }

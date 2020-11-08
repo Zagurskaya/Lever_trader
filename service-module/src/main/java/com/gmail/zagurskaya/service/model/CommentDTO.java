@@ -13,24 +13,23 @@ import javax.validation.constraints.Size;
 @Setter
 @ToString
 public class CommentDTO {
-    @NotNull
+
     private Long id;
     @NotNull
     @Size(max = 200)
     private String message;
-    @NotNull
+
     private LocalDate createdDate;
-    @NotNull
+
     private UserDTO user;
-    @NotNull
+
     private TraderDTO trader;
-    @NotNull
+
     private Long userId;
-    @NotNull
+
     private Long traderId;
     @NotNull
-    @Size(min = 1, max = 10)
     private Long mark;
-    @NotNull
-    private Boolean approved;
+
+    private Boolean approved = false;
 }
