@@ -55,11 +55,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers(URL_ADMIN)
-                .antMatchers(URL_TEST)
+                .antMatchers(URL_ADMIN)
                 .hasAuthority(ADMIN)
-//                .antMatchers("/api/auth/**","/api/traders/**")
-                .antMatchers("/api/auth/**", "/api/traders/**", "/api/admin/**")
+                .antMatchers("/api/auth/**","/api/traders/**")
                 .permitAll()
                 .and()
                 .formLogin()

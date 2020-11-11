@@ -1,6 +1,6 @@
 -- 123456789
 INSERT INTO `users`(`createdata`, `email`, `firstname`, `lastname`, `password`, `role`, `username`)
-VALUES ('2020-01-01','admin@tut.by','Adminov','Admin','$2a$12$Ti6Fk2jvq7Aw.KzWba4BW.iPyNcGQrufIYJBsygEXGdnUD7ih.zFW','ADMIN','admin');
+VALUES ('2020-01-01','admin@tut.by','Adminov','Admin','$2a$12$EeOmUSdRnx0aoA8SxrhsD.Dtz7nlB9FT/1YuPzhn8FCmqzq7NMTzC','ADMIN','admin');
 INSERT INTO `users`( `firstname`, `lastname`, `role`, `username`) VALUES ('anonymous','anonymous','GUEST',' anonymous');
 INSERT INTO `users`(`createdata`, `email`, `firstname`, `lastname`, `password`, `role`, `username`)
 VALUES ('2020-01-01','trader_test@tut.by','Kolobkov','Kolobok','$2a$12$Ti6Fk2jvq7Aw.KzWba4BW.iPyNcGQrufIYJBsygEXGdnUD7ih.zFW','TRADER','trader');
