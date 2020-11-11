@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 public class CommentServiceImpl implements CommentService {
     private static final Long GUEST_ID = 2L;
 
@@ -42,6 +42,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
+    public void delete(Long id) {
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Comment not found with id " + id));
+        commentRepository.delete(comment);
+    }
+
+    @Override
+    @Transactional
     public void add(CommentDTO commentDTO) {
         Long userId = userUtil.getActualUserId();
         commentDTO.setUserId(userId != 0 ? userId : GUEST_ID);
@@ -52,6 +59,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<CommentDTO> getNewComments() {
         List<Comment> commentList = commentRepository.findAllByApproved(false);
         return commentList.stream()
@@ -60,12 +68,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CommentDTO getCommentById(Long id) {
         Comment comment = commentRepository.findAllById(id);
         return commentConverter.toDTO(comment);
     }
 
     @Override
+    @Transactional
     public void approveComment(Long id) {
         Comment comment = commentRepository.findAllById(id);
         comment.setApproved(true);

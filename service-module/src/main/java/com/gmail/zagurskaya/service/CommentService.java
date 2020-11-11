@@ -8,6 +8,8 @@ public interface CommentService {
 
     List<CommentDTO> getCommentsByTraderId(Long traderId);
 
+    void delete(Long id);
+
     void add(CommentDTO commentDTO);
 
     List<CommentDTO> getNewComments();

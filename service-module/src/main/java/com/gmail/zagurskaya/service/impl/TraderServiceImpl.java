@@ -2,6 +2,7 @@ package com.gmail.zagurskaya.service.impl;
 
 import com.gmail.zagurskaya.repository.CommentRepository;
 import com.gmail.zagurskaya.repository.TraderRepository;
+import com.gmail.zagurskaya.repository.model.Comment;
 import com.gmail.zagurskaya.repository.model.Trader;
 import com.gmail.zagurskaya.service.TraderService;
 import com.gmail.zagurskaya.service.converter.TraderConverter;
@@ -54,6 +55,8 @@ public class TraderServiceImpl implements TraderService {
     @Transactional
     public void delete(Long id) {
         Trader trader = traderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Trader not found with id " + id));
+        List<Comment> comments = commentRepository.findAllByTraderIdAndApproved(trader.getId(), false);
+        comments.forEach(commentRepository::delete);
         traderRepository.delete(trader);
     }
 
@@ -79,10 +82,9 @@ public class TraderServiceImpl implements TraderService {
     @Transactional(readOnly = true)
     public List<TraderDTO> getNewTraders() {
         List<Trader> traders = traderRepository.findAllByApproved(false);
-        List<TraderDTO> dtos = traders.stream()
+        return traders.stream()
                 .map(traderConverter::toDTO)
                 .collect(Collectors.toList());
-        return dtos;
     }
 
     @Override
