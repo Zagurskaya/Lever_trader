@@ -11,8 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,28 +25,23 @@ import java.util.stream.Collectors;
 public class TraderServiceImpl implements TraderService {
     private final TraderConverter traderConverter;
     private final TraderRepository traderRepository;
-    private final CommentRepository componentRegistry;
+    private final CommentRepository commentRepository;
 
     @Autowired
-    public TraderServiceImpl(TraderConverter traderConverter, TraderRepository traderRepository, CommentRepository componentRegistry) {
+    public TraderServiceImpl(TraderConverter traderConverter, TraderRepository traderRepository, CommentRepository commentRepository) {
         this.traderConverter = traderConverter;
         this.traderRepository = traderRepository;
-        this.componentRegistry = componentRegistry;
+        this.commentRepository = commentRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<TraderDTO> getTraders() {
-        List<Trader> traders = traderRepository.findAll();
-        List<TraderDTO> dtos = traders.stream()
-                .map(traderConverter::toDTO)
-                .collect(Collectors.toList());
-        dtos.forEach(traderDTO -> {
-            Optional<Double> rating = componentRegistry.findRatingByTraderId(traderDTO.getId());
-            traderDTO.setRating(rating.orElse(0.00));
-        });
-        return dtos;
+        List<Object[]> list = traderRepository.findAllRatingByApprovedTraders();
+        Map<Long, BigDecimal> mapTraderIdAndRating = listObjectToMap(list);
+        return getTraderDTOListByMapTraderIdAndRating(mapTraderIdAndRating);
     }
+
 
     @Override
     @Transactional
@@ -62,17 +62,53 @@ public class TraderServiceImpl implements TraderService {
     public TraderDTO getTraderById(Long id) {
         Trader loaded = traderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Trader not found with id " + id));
         TraderDTO traderDTO = traderConverter.toDTO(loaded);
-        Optional<Double> rating = componentRegistry.findRatingByTraderId(traderDTO.getId());
-        traderDTO.setRating(rating.orElse(0.00));
+        Optional<BigDecimal> rating = traderRepository.findRatingByTraderId(traderDTO.getId());
+        traderDTO.setRating(rating.orElse(new BigDecimal(0)));
         return traderDTO;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TraderDTO> findTopRatingTraders(int topLimit) {
-        List<Trader> traders = traderRepository.findTopRatingTraders(topLimit);
+        List<Object[]> topRatingTraders = traderRepository.findTopRatingTraders(topLimit);
+        Map<Long, BigDecimal> mapTopTraderIdAndRating = listObjectToMap(topRatingTraders);
+        return getTraderDTOListByMapTraderIdAndRating(mapTopTraderIdAndRating);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TraderDTO> getNewTraders() {
+        List<Trader> traders = traderRepository.findAllByApproved(false);
         List<TraderDTO> dtos = traders.stream()
                 .map(traderConverter::toDTO)
                 .collect(Collectors.toList());
         return dtos;
+    }
+
+    @Override
+    public void approveTraderById(Long id) {
+        Trader trader = traderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Trader not found with id " + id));
+        trader.setApproved(true);
+        traderRepository.save(trader);
+    }
+
+    private List<TraderDTO> getTraderDTOListByMapTraderIdAndRating(Map<Long, BigDecimal> mapTraderIdAndRating) {
+        Set<Long> keyList = mapTraderIdAndRating.keySet();
+        List<Trader> traders = traderRepository.findByTraderIds(keyList);
+        List<TraderDTO> dtos = traders.stream()
+                .map(traderConverter::toDTO)
+                .collect(Collectors.toList());
+        dtos.forEach(traderDTO -> traderDTO.setRating(mapTraderIdAndRating.get(traderDTO.getId())));
+        return dtos;
+    }
+
+    private Map<Long, BigDecimal> listObjectToMap(List<Object[]> list) {
+        Map<Long, BigDecimal> map = new HashMap<>();
+        for (Object[] ob : list) {
+            Long key = ((BigInteger) ob[0]).longValue();
+            BigDecimal value = (BigDecimal) ob[1];
+            map.put(key, value);
+        }
+        return map;
     }
 }

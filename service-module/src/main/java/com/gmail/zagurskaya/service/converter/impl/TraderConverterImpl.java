@@ -13,6 +13,7 @@ public class TraderConverterImpl implements TraderConverter {
         TraderDTO traderDTO = new TraderDTO();
         traderDTO.setId(trader.getId());
         traderDTO.setName(trader.getName());
+        traderDTO.setApproved(trader.getApproved());
         return traderDTO;
     }
 
@@ -21,6 +22,7 @@ public class TraderConverterImpl implements TraderConverter {
         Trader trader = new Trader();
         trader.setId(traderDTO.getId());
         trader.setName(traderDTO.getName());
+        trader.setApproved(traderDTO.getApproved());
         return trader;
     }
 }

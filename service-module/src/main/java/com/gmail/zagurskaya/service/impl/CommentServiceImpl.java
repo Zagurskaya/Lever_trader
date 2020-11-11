@@ -50,4 +50,26 @@ public class CommentServiceImpl implements CommentService {
         comment.setCreatedDate(LocalDate.now());
         commentRepository.save(comment);
     }
+
+    @Override
+    public List<CommentDTO> getNewComments() {
+        List<Comment> commentList = commentRepository.findAllByApproved(false);
+        return commentList.stream()
+                .map(commentConverter::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CommentDTO getCommentById(Long id) {
+        Comment comment = commentRepository.findAllById(id);
+        return commentConverter.toDTO(comment);
+    }
+
+    @Override
+    public void approveComment(Long id) {
+        Comment comment = commentRepository.findAllById(id);
+        comment.setApproved(true);
+        commentRepository.save(comment);
+    }
+
 }

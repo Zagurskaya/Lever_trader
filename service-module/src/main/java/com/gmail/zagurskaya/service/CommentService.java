@@ -10,4 +10,9 @@ public interface CommentService {
 
     void add(CommentDTO commentDTO);
 
+    List<CommentDTO> getNewComments();
+
+    CommentDTO getCommentById(Long id);
+
+    void approveComment(Long id);
 }

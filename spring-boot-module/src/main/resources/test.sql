@@ -18,6 +18,11 @@ INSERT INTO `comment`(`approved`, `createdate`, `message`, `trader_id`, `user_id
 SELECT `trader`.`id`, `trader`.`name`, round(AVG(`comment`.`mark`),2) as rating FROM `trader`
 LEFT JOIN `comment` ON `trader`.`id`= `comment`.`trader_id` GROUP BY `trader`.`id`;
 
+SELECT trader.id, trader.name, round(AVG(comment.mark),2) as rating FROM trader
+LEFT JOIN comment ON trader.id = comment.trader_id
+WHERE trader.approved=0
+GROUP BY trader.id;
+
 SELECT `trader`.`id`, `trader`.`name`, round(AVG(`comment`.`mark`),2) as rating FROM `trader` LEFT JOIN `comment` ON `trader`.`id`= `comment`.`trader_id` WHERE `trader`.`id` = 1;
 
 SELECT round(AVG(`mark`),2) as rating FROM `comment` WHERE `comment`.`trader_id` = 1;
@@ -27,3 +32,9 @@ LEFT JOIN `comment` ON `trader`.`id`= `comment`.`trader_id`
 GROUP BY `trader`.`id`
 ORDER BY rating DESC
 LIMIT 5 ;
+
+SELECT trader.id, round(AVG(comment.mark),2) as rating FROM trader
+LEFT JOIN comment ON trader.id = comment.trader_id
+WHERE trader.approved = 1
+GROUP BY trader.id
+ORDER BY `rating`  DESC LIMIT 5

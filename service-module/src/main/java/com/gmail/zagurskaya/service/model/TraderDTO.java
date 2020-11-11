@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -18,5 +19,7 @@ public class TraderDTO {
     @Size(max = 50)
     private String name;
 
-    private Double rating;
+    private Boolean approved;
+
+    private BigDecimal rating;
 }

@@ -26,4 +26,7 @@ public class Trader {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "approved", columnDefinition = "boolean default false")
+    private Boolean approved;
 }

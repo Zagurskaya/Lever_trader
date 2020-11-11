@@ -41,6 +41,7 @@ import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_CHECK_CODE;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_CONFIRM;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_FORGOT_PASSWORD;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_RESET;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_SIGN_IN;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_SIGN_UP;
 
 @RestController
@@ -198,5 +199,10 @@ public class AuthorizationController {
             return new ResponseEntity<>("Fail -> Email does not exist!",
                     HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping(URL_AUTH_SIGN_IN)
+    public ResponseEntity changeSignIn() {
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

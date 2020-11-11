@@ -19,21 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.util.List;
 
-import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADER;
-import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADERS_TOP;
-import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADER_COMMENTS;
-import static com.gmail.zagurskaya.web.constant.URLConstant.API_TRADER_ID;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_GUEST_TRADERS;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_GUEST_TRADERS_TOP;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_GUEST_TRADER_COMMENTS;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_GUEST_TRADER_ID;
 
 @RestController
-@RequestMapping(API_TRADER)
-public class TraderController {
+@RequestMapping(API_GUEST_TRADERS)
+public class GuestController {
     private static final int TOP_LIMIT = 5;
 
     private final TraderService traderService;
     private final CommentService commentService;
 
     @Autowired
-    public TraderController(TraderService traderService, CommentService commentService) {
+    public GuestController(TraderService traderService, CommentService commentService) {
         this.traderService = traderService;
         this.commentService = commentService;
     }
@@ -48,7 +48,7 @@ public class TraderController {
     }
 
     @GetMapping(
-            value = API_TRADERS_TOP,
+            value = API_GUEST_TRADERS_TOP,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
@@ -67,7 +67,7 @@ public class TraderController {
     }
 
     @GetMapping(
-            value = API_TRADER_ID,
+            value = API_GUEST_TRADER_ID,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
@@ -77,7 +77,7 @@ public class TraderController {
     }
 
     @GetMapping(
-            value = API_TRADER_COMMENTS,
+            value = API_GUEST_TRADER_COMMENTS,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
@@ -87,7 +87,7 @@ public class TraderController {
     }
 
     @PostMapping(
-            value = API_TRADER_COMMENTS,
+            value = API_GUEST_TRADER_COMMENTS,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )

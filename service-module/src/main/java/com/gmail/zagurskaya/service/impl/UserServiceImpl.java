@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,7 +32,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getUsers() {
-        return null;
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(userConverter::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -42,21 +46,6 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
         userRepository.save(user);
     }
-
-//    @Override
-//    @Transactional
-//    public void delete(Long id) {
-//        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id" + id));
-//        userRepository.deleteById(user.getId());
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void update(UserDTO userDTO) {
-//        userRepository.findById(userDTO.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found with id" + userDTO.getId()));
-//        User user = userConverter.toEntity(userDTO);
-//        userRepository.save(user);
-//    }
 
     @Override
     @Transactional(readOnly = true)
@@ -70,22 +59,6 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = userRepository.findByUsername(name);
         return user.isPresent() ? user.get().getId() : 0L;
     }
-
-
-//    @Override
-//    @Transactional(readOnly = true)
-//    public UserDTO getById(Long id) {
-//        User loaded = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id" + id));
-//        return userConverter.toDTO(loaded);
-//    }
-
-//    @Override
-//    @Transactional(readOnly = true)
-//    public UserDTO findByUsername(String username) {
-////    public UserDTO findByUsername(String username) {
-//        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
-//        return userConverter.toDTO(user);
-//    }
 
     @Override
     @Transactional(readOnly = true)

@@ -17,4 +17,7 @@ public interface TraderService {
     List<TraderDTO> findTopRatingTraders(int topLimit);
 
 
+    List<TraderDTO> getNewTraders();
+
+    void approveTraderById(Long id);
 }

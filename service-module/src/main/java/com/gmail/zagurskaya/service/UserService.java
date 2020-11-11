@@ -10,14 +10,9 @@ public interface UserService {
 
     void add(UserDTO user);
 
-//    void delete(Long id);
-
     UserDTO loadUserByUsername(String name);
 
     Long findUserIdByUsername(String name);
-
-
-//    UserDTO getUserById(Long id);
 
     boolean existsByUsername(String username);
 

@@ -21,6 +21,7 @@ import static com.gmail.zagurskaya.web.constant.URLConstant.URL_CONFIRM;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_CONTROLLER;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_SIGN_UP;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_SIGN_IN;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_TEST;
 
 @Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -54,17 +55,11 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers(URL_SIGN_UP)
-//                .hasAuthority(GUEST)
-//                .antMatchers(URL_CONFIRM)
-//                .hasAuthority(GUEST)
-//                .antMatchers(URL_CONTROLLER)
-//                .hasAuthority(CONTROLLER)
-                .antMatchers(URL_ADMIN)
+//                .antMatchers(URL_ADMIN)
+                .antMatchers(URL_TEST)
                 .hasAuthority(ADMIN)
-//                .antMatchers(URL_SIGN_UP, URL_CONFIRM, URL_SIGN_IN, "/", URL_403)
-//                .permitAll()
-                .antMatchers("/api/auth/**","/api/traders/**")
+//                .antMatchers("/api/auth/**","/api/traders/**")
+                .antMatchers("/api/auth/**", "/api/traders/**", "/api/admin/**")
                 .permitAll()
                 .and()
                 .formLogin()
