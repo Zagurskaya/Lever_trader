@@ -42,3 +42,19 @@ Guest:
 
 4. GET http://localhost:8080/api/traders/top
 
+Admin:
+1. GET http://localhost:8080/api/admin/new_traders
+
+2. GET http://localhost:8080/api/admin/new_traders/4
+
+3. POST http://localhost:8080/api/admin/new_traders/3
+
+4. DELETE http://localhost:8080/api/admin/new_traders/7
+
+5. GET http://localhost:8080/api/admin/new_comments
+
+6. GET http://localhost:8080/api/admin/new_comments/1
+
+7. POST http://localhost:8080/api/admin/new_comments/1
+
+8. DELETE http://localhost:8080/api/admin/new_comments/28

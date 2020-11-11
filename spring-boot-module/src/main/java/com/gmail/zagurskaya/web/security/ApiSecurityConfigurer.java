@@ -11,19 +11,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+
 import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
+import static com.gmail.zagurskaya.web.constant.RolesConstant.TRADER;
 import static com.gmail.zagurskaya.web.constant.URLConstant.URL_ADMIN;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_USERS;
 
 @Configuration
 @Order(1)
-public class AdminSecurityConfigurer extends WebSecurityConfigurerAdapter {
+public class ApiSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    public AdminSecurityConfigurer(PasswordEncoder passwordEncoder,
-                                   UserDetailsService userDetailsService
+    public ApiSecurityConfigurer(PasswordEncoder passwordEncoder,
+                                 UserDetailsService userDetailsService
     ) {
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;
@@ -37,10 +40,16 @@ public class AdminSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.antMatcher(URL_ADMIN)
+        http
+                .antMatcher(URL_ADMIN)
                 .authorizeRequests()
                 .anyRequest()
                 .hasAuthority(ADMIN)
+                .and()
+                .antMatcher(URL_USERS)
+                .authorizeRequests()
+                .anyRequest()
+                .hasAuthority(TRADER)
                 .and()
                 .httpBasic()
                 .and()

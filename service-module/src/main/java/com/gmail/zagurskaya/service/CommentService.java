@@ -12,9 +12,13 @@ public interface CommentService {
 
     void add(CommentDTO commentDTO);
 
+    void update(CommentDTO commentDTO);
+
     List<CommentDTO> getNewComments();
 
     CommentDTO getCommentById(Long id);
+
+    List<CommentDTO> getCommentByUserId(Long userId);
 
     void approveComment(Long id);
 }

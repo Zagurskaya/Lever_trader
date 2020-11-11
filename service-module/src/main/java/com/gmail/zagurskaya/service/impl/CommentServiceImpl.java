@@ -43,7 +43,8 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Comment not found with id " + id));
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found with id " + id));
         commentRepository.delete(comment);
     }
 
@@ -59,6 +60,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional
+    public void update(CommentDTO commentDTO) {
+        Comment comment = commentRepository.findById(commentDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found with id " + commentDTO.getId()));
+        comment.setMessage(commentDTO.getMessage());
+        comment.setMark(commentDTO.getMark());
+        comment.setApproved(false);
+        commentRepository.save(comment);
+    }
+
+
+    @Override
     @Transactional(readOnly = true)
     public List<CommentDTO> getNewComments() {
         List<Comment> commentList = commentRepository.findAllByApproved(false);
@@ -70,14 +83,26 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional(readOnly = true)
     public CommentDTO getCommentById(Long id) {
-        Comment comment = commentRepository.findAllById(id);
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found with id " + id));
         return commentConverter.toDTO(comment);
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<CommentDTO> getCommentByUserId(Long userId) {
+        List<Comment> commentList = commentRepository.findAllByUserId(userId);
+        return commentList.stream()
+                .map(commentConverter::toDTO)
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
     @Transactional
     public void approveComment(Long id) {
-        Comment comment = commentRepository.findAllById(id);
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Comment not found with id " + id));
         comment.setApproved(true);
         commentRepository.save(comment);
     }

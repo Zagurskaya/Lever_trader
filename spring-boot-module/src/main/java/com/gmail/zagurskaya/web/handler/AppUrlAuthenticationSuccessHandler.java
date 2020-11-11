@@ -18,7 +18,6 @@ import java.util.Collection;
 
 import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
 import static com.gmail.zagurskaya.web.constant.RolesConstant.TRADER;
-import static com.gmail.zagurskaya.web.constant.RolesConstant.GUEST;
 
 public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
@@ -46,29 +45,21 @@ public class AppUrlAuthenticationSuccessHandler implements AuthenticationSuccess
     }
 
     private String determineTargetUrl(Authentication authentication) {
-//        boolean isGuest = false;
-//        boolean isTrader = false;
+        boolean isTrader = false;
         boolean isAdministrator = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority authority : authorities) {
-//            if (authority.getAuthority().equals(GUEST)) {
-//                isGuest = true;
-//                break;
-//            } else if (authority.getAuthority().equals(TRADER)) {
-//                isTrader = true;
-//                break;
-//            } else
-                if (authority.getAuthority().equals(ADMIN)) {
+            if (authority.getAuthority().equals(TRADER)) {
+                isTrader = true;
+                break;
+            } else if (authority.getAuthority().equals(ADMIN)) {
                 isAdministrator = true;
                 break;
             }
         }
-//        if (isGuest) {
-//            return "/api/auth";
-//        } else if (isTrader) {
-//            return "/api/user";
-//        } else
-            if (isAdministrator) {
+        if (isTrader) {
+            return "/api/user";
+        } else if (isAdministrator) {
             return "/api/admin";
         } else {
             throw new IllegalStateException();

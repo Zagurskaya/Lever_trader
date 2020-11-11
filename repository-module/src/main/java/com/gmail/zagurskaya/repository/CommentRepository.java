@@ -13,6 +13,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findAllByApproved(boolean i);
 
-    Comment findAllById(Long id);
-
+    List<Comment> findAllByUserId(Long userId);
 }
