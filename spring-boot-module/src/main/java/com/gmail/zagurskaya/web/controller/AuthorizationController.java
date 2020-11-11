@@ -36,16 +36,16 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.Map;
 
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_CHECK_CODE;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_CONFIRM;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_FORGOT_PASSWORD;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_RESET;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_SIGN_IN;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH_SIGN_UP;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_AUTH;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_AUTH_CHECK_CODE;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_AUTH_CONFIRM;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_AUTH_FORGOT_PASSWORD;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_AUTH_RESET;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_AUTH_SIGN_IN;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_AUTH_SIGN_UP;
 
 @RestController
-@RequestMapping(URL_AUTH)
+@RequestMapping(API_AUTH)
 public class AuthorizationController {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
@@ -74,7 +74,7 @@ public class AuthorizationController {
         this.userUtil = userUtil;
     }
 
-    @PostMapping(URL_AUTH_SIGN_UP)
+    @PostMapping(API_AUTH_SIGN_UP)
     public ResponseEntity saveUserToRedisAndSendTokenToEmail(@RequestBody @Valid SignUpForm signUpRequest, BindingResult result) {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
             return new ResponseEntity<>("Fail -> Username is already taken!",
@@ -107,7 +107,7 @@ public class AuthorizationController {
     }
 
     @GetMapping(
-            value = URL_AUTH_CONFIRM,
+            value = API_AUTH_CONFIRM,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
@@ -118,7 +118,7 @@ public class AuthorizationController {
     }
 
 
-    @PostMapping(value = URL_AUTH_CONFIRM,
+    @PostMapping(value = API_AUTH_CONFIRM,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity saveUser(@RequestParam String token, @RequestBody @Valid ConfirmForm confirmForm, BindingResult result) {
@@ -156,7 +156,7 @@ public class AuthorizationController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping(URL_AUTH_FORGOT_PASSWORD)
+    @PostMapping(API_AUTH_FORGOT_PASSWORD)
     public ResponseEntity sendCodeForForgotPasswordToEmail(@RequestBody Map<String, String> request) {
         String email = request.get("email");
         if (!DateValidator.isEmailValid(email)) {
@@ -176,7 +176,7 @@ public class AuthorizationController {
     }
 
     @GetMapping(
-            value = URL_AUTH_CHECK_CODE,
+            value = API_AUTH_CHECK_CODE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
@@ -187,7 +187,7 @@ public class AuthorizationController {
         return new ResponseEntity<>(" the code " + code + " is actual", HttpStatus.OK);
     }
 
-    @PostMapping(URL_AUTH_RESET)
+    @PostMapping(API_AUTH_RESET)
     public ResponseEntity changePassword(@RequestBody @Valid ResetForm resetForm, BindingResult result) {
         resetFormValidator.validate(resetForm, result);
         CodeRedisDTO codeRedisDTO = codeRedisService.getCodeById(resetForm.getCode());
@@ -201,7 +201,7 @@ public class AuthorizationController {
         }
     }
 
-    @PostMapping(URL_AUTH_SIGN_IN)
+    @PostMapping(API_AUTH_SIGN_IN)
     public ResponseEntity changeSignIn() {
         return new ResponseEntity(HttpStatus.OK);
     }

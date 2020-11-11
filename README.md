@@ -58,3 +58,14 @@ Admin:
 7. POST http://localhost:8080/api/admin/new_comments/1
 
 8. DELETE http://localhost:8080/api/admin/new_comments/28
+
+User (trader)
+1. GET http://localhost:8080/api/users/3/comments
+
+2. POST http://localhost:8080/api/users/3/comments
+
+3. GET http://localhost:8080/api/users/3/comments/34
+
+4. DELETE http://localhost:8080/api/users/3/comments/32
+
+5. PUT http://localhost:8080/api/users/3/comments/34

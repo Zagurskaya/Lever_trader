@@ -13,9 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import static com.gmail.zagurskaya.web.constant.RolesConstant.ADMIN;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_ADMIN;
-import static com.gmail.zagurskaya.web.constant.URLConstant.URL_SIGN_IN;
+import static com.gmail.zagurskaya.web.constant.URLConstant.API_SIGN_IN;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_AUTH;
+import static com.gmail.zagurskaya.web.constant.URLConstant.URL_TRADERS;
 
 @Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -49,11 +49,11 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/auth/**", "/api/traders/**")
+                .antMatchers(URL_AUTH, URL_TRADERS)
                 .permitAll()
                 .and()
                 .formLogin()
-                .loginPage(URL_SIGN_IN)
+                .loginPage(API_SIGN_IN)
                 .successHandler(authenticationSuccessHandler())
                 .permitAll()
                 .and()
