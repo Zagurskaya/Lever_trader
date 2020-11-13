@@ -5,8 +5,11 @@ import com.gmail.zagurskaya.repository.TraderRepository;
 import com.gmail.zagurskaya.repository.model.Comment;
 import com.gmail.zagurskaya.repository.model.Trader;
 import com.gmail.zagurskaya.service.TraderService;
+import com.gmail.zagurskaya.service.converter.CommentConverter;
 import com.gmail.zagurskaya.service.converter.TraderConverter;
+import com.gmail.zagurskaya.service.model.CommentDTO;
 import com.gmail.zagurskaya.service.model.TraderDTO;
+import com.gmail.zagurskaya.service.util.UserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,15 +28,21 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class TraderServiceImpl implements TraderService {
+    private static final Long GUEST_ID = 2L;
+
     private final TraderConverter traderConverter;
     private final TraderRepository traderRepository;
     private final CommentRepository commentRepository;
+    private final CommentConverter commentConverter;
+    private final UserUtil userUtil;
 
     @Autowired
-    public TraderServiceImpl(TraderConverter traderConverter, TraderRepository traderRepository, CommentRepository commentRepository) {
+    public TraderServiceImpl(TraderConverter traderConverter, TraderRepository traderRepository, CommentRepository commentRepository, CommentConverter commentConverter, UserUtil userUtil) {
         this.traderConverter = traderConverter;
         this.traderRepository = traderRepository;
         this.commentRepository = commentRepository;
+        this.commentConverter = commentConverter;
+        this.userUtil = userUtil;
     }
 
     @Override
@@ -49,6 +59,21 @@ public class TraderServiceImpl implements TraderService {
     public void add(TraderDTO traderDTO) {
         Trader trader = traderConverter.toEntity(traderDTO);
         traderRepository.save(trader);
+    }
+
+    @Override
+    @Transactional
+    public void add(TraderDTO traderDTO, CommentDTO commentDTO) {
+        Long userId = userUtil.getActualUserId();
+        Trader trader = traderConverter.toEntity(traderDTO);
+        trader.setApproved(false);
+        Trader newTrader = traderRepository.saveAndFlush(trader);
+        commentDTO.setTraderId(newTrader.getId());
+        commentDTO.setUserId(userId != 0 ? userId : GUEST_ID);
+
+        Comment comment = commentConverter.toEntity(commentDTO);
+        comment.setCreatedDate(LocalDate.now());
+        commentRepository.save(comment);
     }
 
     @Override

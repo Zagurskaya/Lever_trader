@@ -21,6 +21,7 @@ public class URLConstant {
     public static final String API_GUEST_TRADERS_TOP = "/top";
     public static final String API_GUEST_TRADER_ID = "/{id}";
     public static final String API_GUEST_TRADER_COMMENTS = "/{id}/comments";
+    public static final String API_GUEST_TRADERS_COMMENTS = "/comments";
 
 
     public static final String API_ADMIN = "/api/admin";

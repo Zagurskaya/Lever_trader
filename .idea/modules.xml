@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Lever_trader.iml" filepath="$PROJECT_DIR$/.idea/Lever_trader.iml" />
       <module fileurl="file://$PROJECT_DIR$/repository-module/repository-module.iml" filepath="$PROJECT_DIR$/repository-module/repository-module.iml" />
+      <module fileurl="file://$PROJECT_DIR$/repository-redis/repository-redis.iml" filepath="$PROJECT_DIR$/repository-redis/repository-redis.iml" />
       <module fileurl="file://$PROJECT_DIR$/service-module/service-module.iml" filepath="$PROJECT_DIR$/service-module/service-module.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-boot-module/spring-boot-module.iml" filepath="$PROJECT_DIR$/spring-boot-module/spring-boot-module.iml" />
     </modules>
