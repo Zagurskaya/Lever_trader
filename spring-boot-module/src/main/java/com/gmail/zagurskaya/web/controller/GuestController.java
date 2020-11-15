@@ -4,8 +4,10 @@ import com.gmail.zagurskaya.service.CommentService;
 import com.gmail.zagurskaya.service.TraderService;
 import com.gmail.zagurskaya.service.model.CommentDTO;
 import com.gmail.zagurskaya.service.model.TraderDTO;
-import com.gmail.zagurskaya.web.request.newTraderWithCommentForm;
-import com.gmail.zagurskaya.web.validator.DateValidator;
+import com.gmail.zagurskaya.web.request.NewTraderWithCommentForm;
+import com.gmail.zagurskaya.web.util.MessageUtil;
+import com.gmail.zagurskaya.web.validator.CommentValidator;
+import com.gmail.zagurskaya.web.validator.NewTraderWithCommentFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,11 +36,15 @@ public class GuestController {
 
     private final TraderService traderService;
     private final CommentService commentService;
+    private final NewTraderWithCommentFormValidator newTraderWithCommentFormValidator;
+    private final CommentValidator commentValidator;
 
     @Autowired
-    public GuestController(TraderService traderService, CommentService commentService) {
+    public GuestController(TraderService traderService, CommentService commentService, NewTraderWithCommentFormValidator newTraderWithCommentFormValidator, CommentValidator commentValidator) {
         this.traderService = traderService;
         this.commentService = commentService;
+        this.newTraderWithCommentFormValidator = newTraderWithCommentFormValidator;
+        this.commentValidator = commentValidator;
     }
 
     @GetMapping(
@@ -94,9 +100,13 @@ public class GuestController {
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public ResponseEntity<String> saveTraderComment(@PathVariable("id") Long id, @RequestBody @Valid CommentDTO commentDTO) {
-        if (!DateValidator.isMarkValid(commentDTO.getMark())) {
-            return new ResponseEntity<>("Invalid mark form", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> saveTraderComment(@PathVariable("id") Long id,
+                                                    @RequestBody @Valid CommentDTO commentDTO,
+                                                    BindingResult result) {
+
+        commentValidator.validate(commentDTO, result);
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(MessageUtil.getValidationErrorMessage(result), HttpStatus.BAD_REQUEST);
         }
         commentDTO.setTraderId(id);
         commentService.add(commentDTO);
@@ -108,10 +118,11 @@ public class GuestController {
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    public ResponseEntity<String> saveNewTraderWithComment(@RequestBody @Valid newTraderWithCommentForm newTraderWithCommentForm, BindingResult result) {
-//        userRedisValidator.validate(user, result);
-        if (!DateValidator.isMarkValid(newTraderWithCommentForm.getMark())) {
-            return new ResponseEntity<>("Invalid mark form", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> saveNewTraderWithComment(@RequestBody @Valid NewTraderWithCommentForm newTraderWithCommentForm, BindingResult result) {
+
+        newTraderWithCommentFormValidator.validate(newTraderWithCommentForm, result);
+        if (result.hasErrors()) {
+            return new ResponseEntity<>(MessageUtil.getValidationErrorMessage(result), HttpStatus.BAD_REQUEST);
         }
         TraderDTO traderDTO = new TraderDTO();
         traderDTO.setName(newTraderWithCommentForm.getName());
