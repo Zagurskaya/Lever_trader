@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = {"com.gmail.zagurskaya.*"})
 @EnableAutoConfiguration
-public class AppConfig {
+public class RedisAppConfig {
 }

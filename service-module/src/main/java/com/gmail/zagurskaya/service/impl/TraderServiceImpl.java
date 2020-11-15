@@ -66,7 +66,6 @@ public class TraderServiceImpl implements TraderService {
     public void add(TraderDTO traderDTO, CommentDTO commentDTO) {
         Long userId = userUtil.getActualUserId();
         Trader trader = traderConverter.toEntity(traderDTO);
-        trader.setApproved(false);
         Trader newTrader = traderRepository.saveAndFlush(trader);
         commentDTO.setTraderId(newTrader.getId());
         commentDTO.setUserId(userId != 0 ? userId : GUEST_ID);

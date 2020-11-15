@@ -1,71 +1,46 @@
-"# Lever_trader" 
+## Trader service
 
-Registration:
+### General description
+   The web application provides the ability to create trader pages and leave comments for them.
+   Anybody can create a user page and write comments about the trader from this page. 
+   The user can view his comments and delete them.
+   The administrator reviews new requests for creating traders, then approve or decline them.
+  
+____
+### Guest
+  * **Anybody scope**   
+  
+      * **Registration and authorization**  
+        * Registration
+        * Confirm data of the registration
+        * Change password
 
-1. GET http://localhost:8080/api/auth/signup
-{  	"username": "Ivan2",
-	"lastName": "Ivan2",
-	"firstName": "Ivan2",
-	"email": "natacha.r@mail.ru",
-	"role": "TRADER"
-    }
+      * **Active** 
+        * View all traders
+		* Create new trader 
+		* View all comments by the trader
+		* Create new comment by the trader 
+		* View top traders
+		* Create new trader with new comment on the same time 
+		
     
-2. GET http://localhost:8080/api/auth/confirm?token=$2a$12$T0hT/hxBh3L4VYCiRyR68eow32QxhjKhuaBZp/Wa7qqxl.kStqsle
+### Users
 
-3. POST http://localhost:8080/api/auth/confirm?token=$2a$12$T0hT/hxBh3L4VYCiRyR68eow32QxhjKhuaBZp/Wa7qqxl.kStqsle
-{  	"password": "123456789",
-	"repeatPassword": "123456789"
-    }
+ The user has two active roles: **ADMIN, TRADER** and one nominal role: **GUEST**
+ 
+  * **Trader's scope**  
+  
+	* View all his comments
+	* Delete his comment
+	* Update his comment
+		
+  * **Admin's scope**  
     
-4. POST http://localhost:8080/api/auth/forgot_password
-{  
-    "email": "natacha.r@mail.ru"
-    }
+	* View all new traders
+	* View all new comments
+	* Approve comment or trader
+	* decline comment or trader
     
-5. GET http://localhost:8080/api/auth/check_code
-{  
-    "code": "86388"
-    }
-    
-6. POST http://localhost:8080/api/auth/reset
-{  
-    "code": "86388",
-    "newPassword": "123456789"
-    }
-    
-Guest:
-1. GET/POST http://localhost:8080/api/traders
 
-2. GET http://localhost:8080/api/traders/1
 
-3. GET/POST http://localhost:8080/api/traders/1/comments
 
-4. GET http://localhost:8080/api/traders/top
-
-Admin:
-1. GET http://localhost:8080/api/admin/new_traders
-
-2. GET http://localhost:8080/api/admin/new_traders/4
-
-3. POST http://localhost:8080/api/admin/new_traders/3
-
-4. DELETE http://localhost:8080/api/admin/new_traders/7
-
-5. GET http://localhost:8080/api/admin/new_comments
-
-6. GET http://localhost:8080/api/admin/new_comments/1
-
-7. POST http://localhost:8080/api/admin/new_comments/1
-
-8. DELETE http://localhost:8080/api/admin/new_comments/28
-
-User (trader)
-1. GET http://localhost:8080/api/users/3/comments
-
-2. POST http://localhost:8080/api/users/3/comments
-
-3. GET http://localhost:8080/api/users/3/comments/34
-
-4. DELETE http://localhost:8080/api/users/3/comments/32
-
-5. PUT http://localhost:8080/api/users/3/comments/34

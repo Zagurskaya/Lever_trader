@@ -19,7 +19,7 @@ public class TraderDTO {
     @Size(max = 50)
     private String name;
 
-    private Boolean approved;
+    private Boolean approved = false;
 
     private BigDecimal rating;
 }
