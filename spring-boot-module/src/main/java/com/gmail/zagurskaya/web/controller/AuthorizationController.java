@@ -58,11 +58,10 @@ public class AuthorizationController {
     private final UserValidator userValidator;
     private final UserRedisValidator userRedisValidator;
     private final ResetFormValidator resetFormValidator;
-    private final UserUtil userUtil;
 
 
     @Autowired
-    public AuthorizationController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService, MailService mailService, CodeRedisService codeRedisService, UserValidator userValidator, UserRedisValidator userRedisValidator, ResetFormValidator resetFormValidator, UserUtil userUtil) {
+    public AuthorizationController(UserService userService, PasswordEncoder passwordEncoder, UserRedisService userRedisService, MailService mailService, CodeRedisService codeRedisService, UserValidator userValidator, UserRedisValidator userRedisValidator, ResetFormValidator resetFormValidator) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.userRedisService = userRedisService;
@@ -71,7 +70,6 @@ public class AuthorizationController {
         this.userValidator = userValidator;
         this.userRedisValidator = userRedisValidator;
         this.resetFormValidator = resetFormValidator;
-        this.userUtil = userUtil;
     }
 
     @PostMapping(API_AUTH_SIGN_UP)
