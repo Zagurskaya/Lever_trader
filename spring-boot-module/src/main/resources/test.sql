@@ -14,7 +14,6 @@ INSERT INTO `comment`(`approved`, `createdate`, `message`, `trader_id`, `user_id
 INSERT INTO `comment`(`approved`, `createdate`, `message`, `trader_id`, `user_id`, `mark`) VALUES (1,'2020-02-03','second commit',1,3,7);
 
 
-
 SELECT `trader`.`id`, `trader`.`name`, round(AVG(`comment`.`mark`),2) as rating FROM `trader`
 LEFT JOIN `comment` ON `trader`.`id`= `comment`.`trader_id` GROUP BY `trader`.`id`;
 
