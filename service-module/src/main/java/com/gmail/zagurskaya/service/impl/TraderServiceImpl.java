@@ -56,14 +56,15 @@ public class TraderServiceImpl implements TraderService {
 
     @Override
     @Transactional
-    public void add(TraderDTO traderDTO) {
+    public Long add(TraderDTO traderDTO) {
         Trader trader = traderConverter.toEntity(traderDTO);
         traderRepository.save(trader);
+        return trader.getId();
     }
 
     @Override
     @Transactional
-    public void add(TraderDTO traderDTO, CommentDTO commentDTO) {
+    public Long add(TraderDTO traderDTO, CommentDTO commentDTO) {
         Long userId = userUtil.getActualUserId();
         Trader trader = traderConverter.toEntity(traderDTO);
         Trader newTrader = traderRepository.saveAndFlush(trader);
@@ -73,6 +74,7 @@ public class TraderServiceImpl implements TraderService {
         Comment comment = commentConverter.toEntity(commentDTO);
         comment.setCreatedDate(LocalDate.now());
         commentRepository.save(comment);
+        return newTrader.getId();
     }
 
     @Override

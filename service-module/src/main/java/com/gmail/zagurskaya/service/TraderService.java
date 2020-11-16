@@ -9,9 +9,9 @@ public interface TraderService {
 
     List<TraderDTO> getTraders();
 
-    void add(TraderDTO trader);
+    Long add(TraderDTO trader);
 
-    void add(TraderDTO trader, CommentDTO commentDTO);
+    Long add(TraderDTO trader, CommentDTO commentDTO);
 
     void delete(Long id);
 
