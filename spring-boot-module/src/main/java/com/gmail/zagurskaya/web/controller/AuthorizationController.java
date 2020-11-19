@@ -99,7 +99,7 @@ public class AuthorizationController {
             return new ResponseEntity<>(MessageUtil.getValidationErrorMessage(result), HttpStatus.BAD_REQUEST);
         }
         userRedisService.add(user);
-//        mailService.sendLinkToMail(signUpRequest.getEmail(),token);
+        mailService.sendLinkToMail(signUpRequest.getEmail(),token);
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -168,7 +168,7 @@ public class AuthorizationController {
         codeRedisDTO.setMail(email);
 
         codeRedisService.add(codeRedisDTO);
-//        mailService.sendCodeToMail(email, activationСode);
+        mailService.sendCodeToMail(email, activationСode);
 
         return new ResponseEntity(HttpStatus.OK);
     }

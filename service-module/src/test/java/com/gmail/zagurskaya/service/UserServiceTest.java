@@ -96,24 +96,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void shouldGetUserDTOForFindUserIdByUsernameMethodCall() {
-        String userName = "userName";
-        User user = new User();
-        user.setId(1L);
-        when(userRepository.findByUsername(userName)).thenReturn(Optional.of(user));
-        Long userId = userService.findUserIdByUsername(userName);
-//        assertEquals(1, userId);
-    }
-
-//    @Test
-//    public void shouldGet0WhenFromRepositoryForFindUserIdByUsernameMethodCall() {
-//        String userName = "userName";
-//        when(userRepository.findByUsername(userName)).thenReturn(Optional.of(null));
-//        Long userId = userService.findUserIdByUsername(userName);
-////        assertEquals(1, userId);
-//    }
-
-    @Test
     public void shouldGetTrueForExistsByUsernameMethodCall() {
         String userName = "userName";
         when(userRepository.existsByUsername(userName)).thenReturn(true);
